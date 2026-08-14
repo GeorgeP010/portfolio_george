@@ -1,0 +1,36 @@
+{
+    "name": "george-pelealuw-portfolio",
+    "version": "2.0.0",
+    "description": "Personal portfolio website for George Pelealuw - Creative Developer & Designer",
+    "main": "index.html",
+    "scripts": {
+        "start": "npx serve .",
+        "dev": "npx serve . --listen 3000",
+        "lint": "echo 'No linting configured yet'",
+        "format": "echo 'No formatting configured yet'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GeorgeP010/portfolio.git"
+    },
+    "keywords": [
+        "portfolio",
+        "creative-developer",
+        "web-development",
+        "ui-ux-design",
+        "interactive",
+        "rotterdam"
+    ],
+    "author": {
+        "name": "George Pelealuw",
+        "email": "gpelealuw@gmail.com",
+        "url": "https://georgeair.github.io"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/GeorgeP010/portfolio/issues"
+    },
+    "homepage": "https://georgeair.github.io",
+    "devDependencies": {},
+    "dependencies": {}
+}

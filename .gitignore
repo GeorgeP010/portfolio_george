@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+.temp/
+
+# Old versions (keep only index.html, styles.css, main.js)
+ultimate-portfolio.html
+ultimate-portfolio.css
+ultimate-portfolio.js
+modern-portfolio.html
+modern-portfolio.css
+modern-portfolio.js
+portfolio.html
+portfolio.css
+portfolio.js
+playground.html
+playground.css
+playground.js
+
+# Backup files
+*.bak
+*.backup

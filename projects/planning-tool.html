@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Tool - George Pelealuw</title>
+    <meta name="description"
+        content="Interactieve planning en mindmap tool voor het organiseren van ideeën en projecten">
+    <link rel="icon" href="../foto.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="project-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="project-nav">
+        <a href="../index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 10H4M4 10L9 5M4 10L9 15" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Terug</span>
+        </a>
+        <button class="theme-toggle-minimal" id="themeToggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" />
+                <path d="M10 2V4M10 16V18M18 10H16M4 10H2M15.5 4.5L14 6M6 14L4.5 15.5M15.5 15.5L14 14M6 6L4.5 4.5"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path
+                    d="M17 10.5C16.5 14.5 13 17.5 9 17.5C5 17.5 2 14.5 2 10.5C2 6.5 5 3.5 9 3.5C9.5 3.5 10 3.5 10.5 3.5C9.5 4.5 9 6 9 7.5C9 10.5 11 12.5 14 12.5C15.5 12.5 16.5 12 17.5 11C17.5 11 17 10.5 17 10.5Z"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </nav>
+    <main class="project-page-simple">
+        <section class="project-hero-simple">
+            <div class="container-small">
+                <h1 class="project-title-simple">Planning Tool</h1>
+                <p class="project-intro-simple">
+                    Interactieve planning en mindmap tool voor het organiseren van ideeën en projecten.
+                    Met drag-and-drop functionaliteit, real-time updates en lokale opslag voor data persistentie.
+                </p>
+            </div>
+        </section>
+        <section class="project-image-simple">
+            <div class="container">
+                <img src="../Mindmap.png" alt="Planning Tool" loading="lazy">
+            </div>
+        </section>
+        <section class="project-info-simple">
+            <div class="container-small">
+                <div class="info-grid-simple">
+                    <div class="info-block-simple">
+                        <h3>JAAR</h3>
+                        <p>2024</p>
+                    </div>
+                    <div class="info-block-simple">
+                        <h3>ROL</h3>
+                        <p>Full-stack Developer<br>UX Designer</p>
+                    </div>
+                    <div class="info-block-simple">
+                        <h3>DIENSTEN</h3>
+                        <p>Web App Development<br>UI/UX Design</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="project-content-simple">
+            <div class="container-small">
+                <div class="content-grid-simple">
+                    <div class="content-block-simple">
+                        <h2>Over het project</h2>
+                        <p>
+                            Deze planning tool helpt gebruikers hun gedachten en projecten visueel te organiseren.
+                            De applicatie heeft een intuïtieve drag-and-drop interface met real-time updates en
+                            lokale opslag om gebruikersdata tussen sessies te behouden.
+                        </p>
+                    </div>
+                    <div class="content-block-simple">
+                        <h2>Doel</h2>
+                        <p>
+                            Een intuïtieve planning tool creëren die het organiseren van ideeën moeiteloos maakt.
+                            De uitdaging was het bouwen van een responsief drag-and-drop systeem dat soepel werkt
+                            op alle apparaten terwijl data-integriteit behouden blijft.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="next-project-simple">
+            <div class="container-small">
+                <a href="museum-website.html" class="next-link-simple">
+                    <span>Volgend Project</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-copy">© 2025 GEORGE PELEALUW</span>
+                <div class="footer-label">
+                    <span>CREATIVE DEVELOPER</span>
+                    <span>BASED ROTTERDAM, NL</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script defer src="../main.js"></script>
+</body>
+
+</html>
