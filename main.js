@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 physicsContainer.appendChild(tagElement);
 
                 const rect = tagElement.getBoundingClientRect();
-                const tagWidth = rect.width || 80;
-                const tagHeight = rect.height || 28;
+                const tagWidth = rect.width || 120;
+                const tagHeight = rect.height || 40;
 
                 // Spawn tags distributed across the hero name from above
                 const heroRect = heroTitle.getBoundingClientRect();
