@@ -9,7 +9,7 @@
     --font-mono: 'Space Mono', monospace;
 }
 
-html, body.studio-body {
+body.studio-body {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -168,7 +168,7 @@ html, body.studio-body {
     color: var(--accent-primary);
 }
 
-.header-status-pill {
+.studio-header .header-status-pill {
     display: none;
     align-items: center;
     gap: 0.55rem;
@@ -186,12 +186,12 @@ html, body.studio-body {
 }
 
 @media (min-width: 1050px) {
-    .header-status-pill {
+    .studio-header .header-status-pill {
         display: inline-flex;
     }
 }
 
-.header-status-pill .status-dot {
+.studio-header .header-status-pill .status-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -201,7 +201,7 @@ html, body.studio-body {
 }
 
 /* Theme Toggle Button */
-.theme-toggle-minimal {
+.studio-header .theme-toggle-minimal {
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -217,7 +217,7 @@ html, body.studio-body {
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.theme-toggle-minimal:hover {
+.studio-header .theme-toggle-minimal:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: rotate(30deg);
 }
