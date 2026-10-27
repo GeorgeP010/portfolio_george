@@ -598,6 +598,282 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+    // ========== REACT BITS INTERACTIVE DOT GRID ==========
+    function initDotGrid() {
+        const canvas = document.getElementById('dotGridCanvas');
+        const hero = document.getElementById('home');
+        if (!canvas || !hero) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+
+        let dots = [];
+        const spacing = 32;
+        const baseRadius = 1.6;
+        const maxRadius = 3.2;
+        const mouseRadius = 135;
+        const springK = 0.085;
+        const damping = 0.85;
+
+        const mouse = {
+            x: -1000,
+            y: -1000,
+            prevX: -1000,
+            prevY: -1000,
+            vx: 0,
+            vy: 0,
+            isHovering: false
+        };
+
+        const shockwaves = [];
+        let isRunning = false;
+        let animationFrameId = null;
+
+        function getThemeColors() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                return {
+                    baseR: 255, baseG: 255, baseB: 255, baseA: 0.12,
+                    activeR: 167, activeG: 139, activeB: 250, activeA: 0.85, // vibrant violet
+                    glowA: 0.18
+                };
+            } else {
+                return {
+                    baseR: 15, baseG: 23, baseB: 42, baseA: 0.09,
+                    activeR: 99, activeG: 102, activeB: 241, activeA: 0.85, // indigo
+                    glowA: 0.15
+                };
+            }
+        }
+
+        let colors = getThemeColors();
+
+        // Theme switch listener
+        const themeObserver = new MutationObserver(() => {
+            colors = getThemeColors();
+            wakeUp();
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+        function resize() {
+            const rect = hero.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            initDots();
+            wakeUp();
+        }
+
+        function initDots() {
+            dots = [];
+            const cols = Math.floor(width / spacing) + 1;
+            const rows = Math.floor(height / spacing) + 1;
+
+            const startX = (width - (cols - 1) * spacing) / 2;
+            const startY = (height - (rows - 1) * spacing) / 2;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const ox = startX + c * spacing;
+                    const oy = startY + r * spacing;
+                    dots.push({
+                        ox, oy,
+                        x: ox, y: oy,
+                        vx: 0, vy: 0,
+                        highlight: 0
+                    });
+                }
+            }
+        }
+
+        function update() {
+            let hasMovement = false;
+
+            // Update shockwaves
+            for (let i = shockwaves.length - 1; i >= 0; i--) {
+                const sw = shockwaves[i];
+                sw.radius += sw.speed;
+                sw.intensity *= 0.955;
+                if (sw.radius > sw.maxRadius || sw.intensity < 0.01) {
+                    shockwaves.splice(i, 1);
+                } else {
+                    hasMovement = true;
+                }
+            }
+
+            for (let i = 0; i < dots.length; i++) {
+                const dot = dots[i];
+
+                // Cursor interaction (springy jelly flick & drag)
+                if (mouse.isHovering) {
+                    const dx = dot.x - mouse.x;
+                    const dy = dot.y - mouse.y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < mouseRadius && dist > 0) {
+                        const norm = 1 - dist / mouseRadius;
+                        const pushForce = norm * norm * 7.0;
+                        const angle = Math.atan2(dy, dx);
+
+                        dot.vx += Math.cos(angle) * pushForce + mouse.vx * 0.15 * norm;
+                        dot.vy += Math.sin(angle) * pushForce + mouse.vy * 0.15 * norm;
+
+                        dot.highlight = Math.max(dot.highlight, norm);
+                        hasMovement = true;
+                    }
+                }
+
+                // Shockwave interaction
+                for (let s = 0; s < shockwaves.length; s++) {
+                    const sw = shockwaves[s];
+                    const sdx = dot.x - sw.x;
+                    const sdy = dot.y - sw.y;
+                    const sdist = Math.hypot(sdx, sdy);
+                    const waveDist = Math.abs(sdist - sw.radius);
+
+                    if (waveDist < sw.thickness && sdist > 0) {
+                        const waveNorm = 1 - waveDist / sw.thickness;
+                        const wavePush = waveNorm * sw.intensity * 9.0;
+                        const sAngle = Math.atan2(sdy, sdx);
+
+                        dot.vx += Math.cos(sAngle) * wavePush;
+                        dot.vy += Math.sin(sAngle) * wavePush;
+                        dot.highlight = Math.max(dot.highlight, waveNorm * (sw.intensity / sw.maxIntensity));
+                        hasMovement = true;
+                    }
+                }
+
+                // Spring physics towards original position
+                const ax = (dot.ox - dot.x) * springK;
+                const ay = (dot.oy - dot.y) * springK;
+
+                dot.vx = (dot.vx + ax) * damping;
+                dot.vy = (dot.vy + ay) * damping;
+
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+
+                dot.highlight *= 0.91;
+
+                if (Math.abs(dot.vx) > 0.01 || Math.abs(dot.vy) > 0.01 || Math.abs(dot.x - dot.ox) > 0.1 || Math.abs(dot.y - dot.oy) > 0.1 || dot.highlight > 0.01) {
+                    hasMovement = true;
+                }
+            }
+
+            // Render dots
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < dots.length; i++) {
+                const dot = dots[i];
+                const h = dot.highlight;
+                const r = baseRadius + (maxRadius - baseRadius) * h;
+
+                const red = Math.round(colors.baseR + (colors.activeR - colors.baseR) * h);
+                const green = Math.round(colors.baseG + (colors.activeG - colors.baseG) * h);
+                const blue = Math.round(colors.baseB + (colors.activeB - colors.baseB) * h);
+                const alpha = colors.baseA + (colors.activeA - colors.baseA) * h;
+
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha.toFixed(3)})`;
+                ctx.fill();
+
+                // Soft glow for high energy dots
+                if (h > 0.35) {
+                    ctx.beginPath();
+                    ctx.arc(dot.x, dot.y, r * 1.9, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${colors.activeR}, ${colors.activeG}, ${colors.activeB}, ${(h * colors.glowA).toFixed(3)})`;
+                    ctx.fill();
+                }
+            }
+
+            // Attenuate mouse velocity
+            mouse.vx *= 0.5;
+            mouse.vy *= 0.5;
+
+            if (hasMovement || mouse.isHovering) {
+                animationFrameId = requestAnimationFrame(update);
+            } else {
+                isRunning = false;
+            }
+        }
+
+        function wakeUp() {
+            if (!isRunning) {
+                isRunning = true;
+                animationFrameId = requestAnimationFrame(update);
+            }
+        }
+
+        hero.addEventListener('mousemove', (e) => {
+            const rect = hero.getBoundingClientRect();
+            const curX = e.clientX - rect.left;
+            const curY = e.clientY - rect.top;
+
+            if (mouse.prevX !== -1000) {
+                mouse.vx = curX - mouse.prevX;
+                mouse.vy = curY - mouse.prevY;
+            }
+            mouse.prevX = curX;
+            mouse.prevY = curY;
+            mouse.x = curX;
+            mouse.y = curY;
+            mouse.isHovering = true;
+            wakeUp();
+        }, { passive: true });
+
+        hero.addEventListener('mouseleave', () => {
+            mouse.isHovering = false;
+            mouse.prevX = -1000;
+            mouse.prevY = -1000;
+            mouse.vx = 0;
+            mouse.vy = 0;
+        });
+
+        hero.addEventListener('click', (e) => {
+            // Only trigger shockwave if not clicking on an interactive link/button/tag
+            if (e.target.closest('a, button, .physics-tag')) return;
+
+            const rect = hero.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+
+            shockwaves.push({
+                x: clickX,
+                y: clickY,
+                radius: 0,
+                maxRadius: Math.max(width, height) * 0.8,
+                speed: 13,
+                thickness: 75,
+                intensity: 1.0,
+                maxIntensity: 1.0
+            });
+            wakeUp();
+        });
+
+        let heroResizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(heroResizeTimer);
+            heroResizeTimer = setTimeout(resize, 100);
+        });
+
+        resize();
+    }
+
+    initDotGrid();
+
     // ========== CONSOLE MESSAGE ==========
     console.log('%c👋 Hey Developer!', 'font-size: 24px; font-weight: bold; color: #6366f1;');
     console.log('%cLike what you see? Let\'s create something amazing together!', 'font-size: 14px; color: #737373;');

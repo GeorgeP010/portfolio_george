@@ -297,6 +297,17 @@ body {
     transform: translateZ(0);
 }
 
+/* Interactive Dot Grid Canvas (React Bits inspired) */
+.dot-grid-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
 /* Gradient Mesh Background - Static Ambient Glow (Flicker-Free) */
 .hero::before {
     content: '';
