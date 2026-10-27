@@ -1,6 +1,7 @@
 /**
  * George Pelealuw — 3D Video Avatar Studio Experience
  * Inspired by Mild Sugar Design (mildsugardesign.jp)
+ * Supports real MP4 video playback with seamless WebP motion fallback.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorStalker = document.getElementById('cursorStalker');
     const stalkerText = cursorStalker ? cursorStalker.querySelector('span') : null;
 
-    // Animated Media Elements
+    // Real MP4 Video Elements
+    const videoWorking = document.getElementById('videoWorking');
+    const videoTurnFront = document.getElementById('videoTurnFront');
+    const videoWaving = document.getElementById('videoWaving');
+    const videoTurnBack = document.getElementById('videoTurnBack');
+
+    // WebP Motion Fallback Elements
     const mediaWorking = document.getElementById('mediaWorking');
     const mediaTurnFront = document.getElementById('mediaTurnFront');
     const mediaWaving = document.getElementById('mediaWaving');
@@ -24,10 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let isTransitioning = false;
     let transitionTimer = null;
     let audioCtx = null;
+    let hasVideoSupport = false;
+
+    // Detect if real MP4 video is present and working
+    if (videoWorking) {
+        videoWorking.addEventListener('canplay', () => {
+            hasVideoSupport = true;
+            document.querySelectorAll('.studio-webp-layer').forEach(el => el.style.display = 'none');
+            videoWorking.classList.add('active');
+            videoWorking.play().catch(() => {});
+        });
+        videoWorking.addEventListener('error', () => {
+            hasVideoSupport = false;
+        });
+    }
 
     // Helper to activate a single media layer
     function setMediaActive(targetMedia) {
-        [mediaWorking, mediaTurnFront, mediaWaving, mediaTurnBack].forEach(el => {
+        const allMedia = [
+            videoWorking, videoTurnFront, videoWaving, videoTurnBack,
+            mediaWorking, mediaTurnFront, mediaWaving, mediaTurnBack
+        ];
+        allMedia.forEach(el => {
             if (el) {
                 if (el === targetMedia) {
                     el.classList.add('active');
@@ -101,13 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         playChime('open');
 
-        // Play swivel turn animation
-        if (mediaTurnFront) {
-            const rawSrc = mediaTurnFront.getAttribute('src').split('?')[0];
-            mediaTurnFront.src = rawSrc + '?t=' + Date.now();
-            setMediaActive(mediaTurnFront);
-        }
-
         // Studio stage & viewport state
         studioStage.classList.add('front-active');
         studioViewport.classList.add('panel-open');
@@ -118,13 +136,45 @@ document.addEventListener('DOMContentLoaded', () => {
             stalkerText.textContent = 'Sluit ✕';
         }
 
-        // After turn animation finishes (~550ms), seamlessly show waving loop
-        transitionTimer = setTimeout(() => {
-            if (isFrontActive) {
-                setMediaActive(mediaWaving);
+        if (hasVideoSupport && videoTurnFront && videoWaving) {
+            // Play MP4 turn video
+            setMediaActive(videoTurnFront);
+            videoTurnFront.currentTime = 0;
+            videoTurnFront.play().catch(() => {});
+
+            videoTurnFront.onended = () => {
+                if (isFrontActive) {
+                    setMediaActive(videoWaving);
+                    videoWaving.currentTime = 0;
+                    videoWaving.play().catch(() => {});
+                }
+                isTransitioning = false;
+            };
+
+            // Fallback timer if video ended event does not fire
+            transitionTimer = setTimeout(() => {
+                if (isFrontActive && isTransitioning) {
+                    setMediaActive(videoWaving);
+                    videoWaving.play().catch(() => {});
+                    isTransitioning = false;
+                }
+            }, 800);
+        } else {
+            // Play WebP turn animation
+            if (mediaTurnFront) {
+                const rawSrc = mediaTurnFront.getAttribute('src').split('?')[0];
+                mediaTurnFront.src = rawSrc + '?t=' + Date.now();
+                setMediaActive(mediaTurnFront);
             }
-            isTransitioning = false;
-        }, 550);
+
+            // After turn finishes (~550ms), seamlessly show waving loop
+            transitionTimer = setTimeout(() => {
+                if (isFrontActive) {
+                    setMediaActive(mediaWaving);
+                }
+                isTransitioning = false;
+            }, 550);
+        }
     }
 
     function showBackState() {
@@ -145,20 +195,43 @@ document.addEventListener('DOMContentLoaded', () => {
             stalkerText.textContent = 'Hey! 🤝';
         }
 
-        // Play swivel back animation
-        if (mediaTurnBack) {
-            const rawSrc = mediaTurnBack.getAttribute('src').split('?')[0];
-            mediaTurnBack.src = rawSrc + '?t=' + Date.now();
-            setMediaActive(mediaTurnBack);
-        }
+        if (hasVideoSupport && videoTurnBack && videoWorking) {
+            // Play MP4 turn back video
+            setMediaActive(videoTurnBack);
+            videoTurnBack.currentTime = 0;
+            videoTurnBack.play().catch(() => {});
 
-        // After turn back finishes (~550ms), seamlessly resume coding loop
-        transitionTimer = setTimeout(() => {
-            if (!isFrontActive) {
-                setMediaActive(mediaWorking);
+            videoTurnBack.onended = () => {
+                if (!isFrontActive) {
+                    setMediaActive(videoWorking);
+                    videoWorking.play().catch(() => {});
+                }
+                isTransitioning = false;
+            };
+
+            transitionTimer = setTimeout(() => {
+                if (!isFrontActive && isTransitioning) {
+                    setMediaActive(videoWorking);
+                    videoWorking.play().catch(() => {});
+                    isTransitioning = false;
+                }
+            }, 800);
+        } else {
+            // Play WebP turn back animation
+            if (mediaTurnBack) {
+                const rawSrc = mediaTurnBack.getAttribute('src').split('?')[0];
+                mediaTurnBack.src = rawSrc + '?t=' + Date.now();
+                setMediaActive(mediaTurnBack);
             }
-            isTransitioning = false;
-        }, 550);
+
+            // After turn back finishes (~550ms), seamlessly resume coding loop
+            transitionTimer = setTimeout(() => {
+                if (!isFrontActive) {
+                    setMediaActive(mediaWorking);
+                }
+                isTransitioning = false;
+            }, 550);
+        }
     }
 
     // Trigger on clicking stage or hotspot
@@ -240,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorStalker.classList.remove('visible');
         });
 
-        // Lerp loop for silky smooth movement
         function animateStalker() {
             const ease = 0.18;
             currentX += (mouseX - currentX) * ease;
@@ -251,7 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         requestAnimationFrame(animateStalker);
 
-        // Hover effect over avatar zone
         if (avatarClickZone) {
             avatarClickZone.addEventListener('mouseenter', () => {
                 cursorStalker.classList.add('hovering-avatar');
@@ -264,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Hide stalker when inside side panel
         if (sidePanel) {
             sidePanel.addEventListener('mouseenter', () => {
                 cursorStalker.classList.remove('visible');
