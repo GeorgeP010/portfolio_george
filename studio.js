@@ -1,5 +1,5 @@
 /**
- * George Pelealuw — 3D Avatar Studio Experience
+ * George Pelealuw — 3D Video Avatar Studio Experience
  * Inspired by Mild Sugar Design (mildsugardesign.jp)
  */
 
@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const studioViewport = document.getElementById('studioViewport');
     const studioStage = document.getElementById('studioStage');
-    const bgBack = document.getElementById('bgBack');
-    const bgFront = document.getElementById('bgFront');
     const rotatingBadge = document.getElementById('rotatingBadge');
     const avatarClickZone = document.getElementById('avatarClickZone');
     const sidePanel = document.getElementById('sidePanel');
@@ -16,8 +14,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorStalker = document.getElementById('cursorStalker');
     const stalkerText = cursorStalker ? cursorStalker.querySelector('span') : null;
 
+    // Animated Media Elements
+    const mediaWorking = document.getElementById('mediaWorking');
+    const mediaTurnFront = document.getElementById('mediaTurnFront');
+    const mediaWaving = document.getElementById('mediaWaving');
+    const mediaTurnBack = document.getElementById('mediaTurnBack');
+
     let isFrontActive = false;
+    let isTransitioning = false;
+    let transitionTimer = null;
     let audioCtx = null;
+
+    // Helper to activate a single media layer
+    function setMediaActive(targetMedia) {
+        [mediaWorking, mediaTurnFront, mediaWaving, mediaTurnBack].forEach(el => {
+            if (el) {
+                if (el === targetMedia) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            }
+        });
+    }
 
     // -------------------------------------------------------------------------
     // 1. Subtle Web Audio Synthesizer (Chime Effects)
@@ -49,17 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (type === 'open') {
                 // Bright welcoming two-tone marimba chime (E5 -> B5)
-                osc.frequency.setValueAtTime(659.25, now); // E5
-                osc.frequency.exponentialRampToValueAtTime(987.77, now + 0.12); // B5
+                osc.frequency.setValueAtTime(659.25, now);
+                osc.frequency.exponentialRampToValueAtTime(987.77, now + 0.12);
                 gain.gain.setValueAtTime(0.001, now);
                 gain.gain.linearRampToValueAtTime(0.18, now + 0.02);
                 gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
                 osc.start(now);
                 osc.stop(now + 0.55);
             } else {
-                // Soft dismiss note (B5 -> E5)
-                osc.frequency.setValueAtTime(880.0, now); // A5
-                osc.frequency.exponentialRampToValueAtTime(523.25, now + 0.15); // C5
+                // Soft dismiss note (A5 -> C5)
+                osc.frequency.setValueAtTime(880.0, now);
+                osc.frequency.exponentialRampToValueAtTime(523.25, now + 0.15);
                 gain.gain.setValueAtTime(0.001, now);
                 gain.gain.linearRampToValueAtTime(0.12, now + 0.02);
                 gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
@@ -67,22 +86,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 osc.stop(now + 0.4);
             }
         } catch (e) {
-            // Audio context silently fails if blocked by browser policy
+            // Audio policy fails silently
         }
     }
 
     // -------------------------------------------------------------------------
-    // 2. State Toggle (Turn Around / Return)
+    // 2. State Toggle: Working -> Swivel Turn -> Waving Greeting
     // -------------------------------------------------------------------------
     function showFrontState() {
-        if (isFrontActive) return;
+        if (isFrontActive || isTransitioning) return;
         isFrontActive = true;
+        isTransitioning = true;
+        clearTimeout(transitionTimer);
 
         playChime('open');
 
-        // Swap images
-        bgBack.classList.remove('active');
-        bgFront.classList.add('active');
+        // Play swivel turn animation
+        if (mediaTurnFront) {
+            const rawSrc = mediaTurnFront.getAttribute('src').split('?')[0];
+            mediaTurnFront.src = rawSrc + '?t=' + Date.now();
+            setMediaActive(mediaTurnFront);
+        }
 
         // Studio stage & viewport state
         studioStage.classList.add('front-active');
@@ -93,19 +117,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stalkerText) {
             stalkerText.textContent = 'Sluit ✕';
         }
+
+        // After turn animation finishes (~550ms), seamlessly show waving loop
+        transitionTimer = setTimeout(() => {
+            if (isFrontActive) {
+                setMediaActive(mediaWaving);
+            }
+            isTransitioning = false;
+        }, 550);
     }
 
     function showBackState() {
-        if (!isFrontActive) return;
+        if (!isFrontActive || isTransitioning) return;
         isFrontActive = false;
+        isTransitioning = true;
+        clearTimeout(transitionTimer);
 
         playChime('close');
 
-        // Swap images
-        bgFront.classList.remove('active');
-        bgBack.classList.add('active');
-
-        // Revert classes
+        // Close drawer and restore stage framing
         studioStage.classList.remove('front-active');
         studioViewport.classList.remove('panel-open');
         sidePanel.classList.remove('open');
@@ -114,6 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stalkerText) {
             stalkerText.textContent = 'Hey! 🤝';
         }
+
+        // Play swivel back animation
+        if (mediaTurnBack) {
+            const rawSrc = mediaTurnBack.getAttribute('src').split('?')[0];
+            mediaTurnBack.src = rawSrc + '?t=' + Date.now();
+            setMediaActive(mediaTurnBack);
+        }
+
+        // After turn back finishes (~550ms), seamlessly resume coding loop
+        transitionTimer = setTimeout(() => {
+            if (!isFrontActive) {
+                setMediaActive(mediaWorking);
+            }
+            isTransitioning = false;
+        }, 550);
     }
 
     // Trigger on clicking stage or hotspot
@@ -137,11 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (studioStage) {
         studioStage.addEventListener('click', (e) => {
-            // Only trigger if clicked outside of sidePanel
             if (!isFrontActive) {
                 showFrontState();
             } else {
-                // If user clicks the stage while drawer is open, close drawer
                 showBackState();
             }
         });
@@ -221,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Hide stalker when inside side panel or hovering interactive buttons
+        // Hide stalker when inside side panel
         if (sidePanel) {
             sidePanel.addEventListener('mouseenter', () => {
                 cursorStalker.classList.remove('visible');

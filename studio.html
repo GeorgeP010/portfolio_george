@@ -41,12 +41,19 @@
 
         <!-- Studio Stage -->
         <div class="studio-stage" id="studioStage" role="button" tabindex="0" aria-label="Klik op George om kennis te maken">
-            <!-- Background Images: State 1 (Back) & State 2 (Front) -->
-            <div class="studio-bg state-back active" id="bgBack">
-                <img src="george_studio_back.jpg" alt="George werkt achter zijn bureau in zijn 3D studio" id="imgBack">
-            </div>
-            <div class="studio-bg state-front" id="bgFront">
-                <img src="george_studio_front.jpg" alt="George draait zich om en glimlacht naar de camera" id="imgFront">
+            <!-- Animated 3D Avatar Studio Media Layers -->
+            <div class="studio-media-container" id="studioMediaContainer">
+                <!-- 1. Idle Working Loop (coding & typing at desk) -->
+                <img src="george_working_loop.webp" alt="George aan het werk in zijn 3D studio" class="studio-media active" id="mediaWorking">
+
+                <!-- 2. Turn to Front Transition (chair swivels around) -->
+                <img src="george_turn_to_front.webp" alt="George draait zijn stoel om" class="studio-media" id="mediaTurnFront">
+
+                <!-- 3. Active Greeting Loop (smiling and waving hello) -->
+                <img src="george_waving_loop.webp" alt="George glimlacht en zwaait naar je" class="studio-media" id="mediaWaving">
+
+                <!-- 4. Turn to Back Transition (chair swivels back to desk) -->
+                <img src="george_turn_to_back.webp" alt="George draait zich terug naar het bureau" class="studio-media" id="mediaTurnBack">
             </div>
 
             <!-- Rotating Text Badge (Mild Sugar Style) -->
