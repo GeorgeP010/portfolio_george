@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>George Pelealuw — Studio & Avatar Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+
+    <!-- Minimal Header -->
+    <header class="studio-header">
+        <div class="header-left">
+            <a href="index.html" class="back-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>GEORGE PELEALUW</span>
+            </a>
+            <span class="role-tag">CREATIVE DEVELOPER • ROTTERDAM</span>
+        </div>
+
+        <div class="header-right">
+            <a href="projects.html" class="projects-pill">
+                <span>PROJECTEN</span>
+                <span class="pill-count">11</span>
+            </a>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>BESCHIKBAAR VOOR STAGE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Studio Hero Viewport -->
+    <main class="studio-viewport" id="studioViewport">
+
+        <!-- Studio Stage -->
+        <div class="studio-stage" id="studioStage" role="button" tabindex="0" aria-label="Klik op George om kennis te maken">
+            <!-- Background Images: State 1 (Back) & State 2 (Front) -->
+            <div class="studio-bg state-back active" id="bgBack">
+                <img src="george_studio_back.jpg" alt="George werkt achter zijn bureau in zijn 3D studio" id="imgBack">
+            </div>
+            <div class="studio-bg state-front" id="bgFront">
+                <img src="george_studio_front.jpg" alt="George draait zich om en glimlacht naar de camera" id="imgFront">
+            </div>
+
+            <!-- Rotating Text Badge (Mild Sugar Style) -->
+            <div class="rotating-badge-container" id="rotatingBadge">
+                <svg viewBox="0 0 200 200" class="rotating-svg">
+                    <path id="textPath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" fill="none" />
+                    <text>
+                        <textPath href="#textPath" startOffset="0%">
+                            KLIK OP MIJ • WELKOM IN MIJN STUDIO • KLIK OP MIJ • 
+                        </textPath>
+                    </text>
+                </svg>
+                <div class="badge-center-callout">
+                    <span class="small-text">Don’t be shy</span>
+                    <span class="big-text">“Hey!”</span>
+                </div>
+            </div>
+
+            <!-- Click Trigger Hotspot over Avatar -->
+            <div class="avatar-click-zone" id="avatarClickZone" title="Klik om kennis te maken!"></div>
+        </div>
+
+        <!-- Custom Cursor Follower ("Stalker") -->
+        <div class="cursor-stalker" id="cursorStalker" aria-hidden="true">
+            <span>Hey! 🤝</span>
+        </div>
+
+        <!-- Slide-out Side Drawer (Profile Card) -->
+        <aside class="studio-side-panel" id="sidePanel" aria-hidden="true">
+            <div class="panel-inner">
+                <button class="panel-close-btn" id="closePanelBtn" aria-label="Sluit profiel">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                <div class="panel-header">
+                    <div class="panel-greeting">
+                        <span class="greet-title">Hey!</span>
+                        <span class="greet-emoji">🤝</span>
+                    </div>
+                    <h2 class="panel-name">Ik ben George.</h2>
+                    <p class="panel-subtitle">Creative Developer & UI/UX Designer</p>
+                </div>
+
+                <div class="panel-body">
+                    <p class="panel-bio">
+                        Welkom in mijn digitale studio! Ik ben 25 jaar oud uit Ridderkerk. Met een achtergrond in <strong>Media Productie</strong> en momenteel studerend <strong>Software Development</strong> combineer ik creativiteit met code.
+                    </p>
+                    <p class="panel-bio">
+                        Ik bouw interactieve webapplicaties, doordachte UI/UX concepten en test software grondig voor de beste gebruikerservaring.
+                    </p>
+
+                    <div class="panel-chips">
+                        <span class="chip">🎨 UI/UX Design</span>
+                        <span class="chip">⚡ JavaScript & React</span>
+                        <span class="chip">🧩 Software Testing</span>
+                        <span class="chip">📍 Rotterdam Based</span>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <a href="projects.html" class="btn-primary">
+                        <span>Bekijk mijn Projecten (11)</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <a href="mailto:gpelealuw@gmail.com" class="btn-secondary">
+                        <span>Stuur een bericht</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script src="studio.js"></script>
+</body>
+</html>

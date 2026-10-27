@@ -198,6 +198,32 @@ body {
     font-family: 'Space Mono', monospace;
 }
 
+.header-studio-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s var(--ease);
+}
+
+.header-studio-pill:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-1px);
+}
+
+.header-studio-pill .pill-sparkle {
+    font-size: 11px;
+}
+
 .header-email {
     font-size: 12px;
     font-weight: 600;
