@@ -266,7 +266,7 @@ body {
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #fff;
+    color: var(--text-primary);
     padding: 0;
     display: flex;
     align-items: center;
@@ -1014,15 +1014,6 @@ body {
     pointer-events: none;
 }
 
-.contact-section h2 {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: var(--text-secondary);
-    margin-bottom: 40px;
-    text-transform: uppercase;
-}
-
 .email-link {
     display: inline-block;
     font-family: var(--font-display);
@@ -1583,4 +1574,622 @@ body {
         font-size: 12px;
         padding: 6px 12px;
     }
+}
+
+/* ==========================================================================
+   UNIFIED PORTFOLIO: MILD SUGAR DESIGN × GEORGE PELEALUW
+   Seamless 1-Page Layout: 3D Studio Hero + Cases + About + Contact
+   ========================================================================== */
+
+.unified-portfolio-body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Unified Floating Header */
+.unified-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 74px;
+    padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="light"] .unified-header {
+    background: rgba(250, 250, 250, 0.88);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    gap: 2px;
+}
+
+.brand-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+}
+
+.brand-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 2.2rem);
+}
+
+.nav-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    padding: 6px 2px;
+    transition: color 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--text-primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-primary);
+    transition: width 0.3s var(--ease);
+}
+
+.nav-link.active::after,
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-count {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 0.65rem;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    margin-left: 3px;
+}
+
+[data-theme="light"] .nav-count {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .header-status-pill {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #10b981;
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.theme-toggle-minimal {
+    color: var(--text-primary);
+}
+
+@media (max-width: 820px) {
+    .header-nav { display: none; }
+    .header-status-pill { display: none; }
+}
+
+/* Studio Hero Section */
+.studio-hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+/* Scroll Prompt Button (Mild Sugar Style) */
+.scroll-prompt-pill {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1.4rem;
+    background: rgba(20, 20, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 9999px;
+    color: #ffffff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: bounceDown 2.2s infinite ease-in-out;
+}
+
+[data-theme="light"] .scroll-prompt-pill {
+    background: rgba(255, 255, 255, 0.88);
+    color: #0a0a0a;
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-prompt-pill:hover {
+    background: var(--text-primary);
+    color: var(--bg);
+    transform: translateX(-50%) translateY(-3px);
+    border-color: var(--text-primary);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+    animation-play-state: paused;
+}
+
+.scroll-prompt-pill svg {
+    transition: transform 0.3s ease;
+}
+
+.scroll-prompt-pill:hover svg {
+    transform: translateY(3px);
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ==========================================================================
+   CASES SECTION (Mild Sugar Editorial Layout)
+   ========================================================================== */
+.cases-section {
+    position: relative;
+    padding: 120px 0 100px;
+    background: var(--bg);
+    scroll-margin-top: 70px;
+    z-index: 10;
+}
+
+.container {
+    width: 100%;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+}
+
+.cases-section-head {
+    margin-bottom: 48px;
+}
+
+.cases-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.meta-tag, .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+}
+
+.cases-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.cases-subtitle {
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    color: var(--text-secondary);
+    max-width: 650px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+/* Filter Bar */
+.cases-filter-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.cases-filter-btn {
+    appearance: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: all 0.25s var(--ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cases-filter-btn span {
+    font-size: 0.68rem;
+    opacity: 0.7;
+}
+
+.cases-filter-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .cases-filter-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.cases-filter-btn.active {
+    background: var(--text-primary);
+    color: var(--bg);
+}
+
+.cases-filter-btn.active span {
+    opacity: 0.9;
+}
+
+.cases-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 36px;
+    margin-top: 24px;
+    transition: opacity 0.3s ease;
+}
+
+@media (max-width: 960px) {
+    .cases-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+}
+
+.creative-project-card.is-hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   ABOUT SECTION (Mild Sugar Narrative Layout)
+   ========================================================================== */
+.about-section {
+    position: relative;
+    padding: 120px 0 100px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 70px;
+    z-index: 10;
+}
+
+.about-split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 64px 80px;
+    align-items: start;
+}
+
+.about-big-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.8vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin: 16px 0 16px;
+}
+
+.about-tagline {
+    font-size: 1.05rem;
+    color: var(--accent-primary);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.about-p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.about-p strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.about-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+}
+
+.stat-card {
+    padding: 24px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.3s var(--ease), border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-primary);
+}
+
+.stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+    .about-split-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* ==========================================================================
+   CONTACT SECTION (Mild Sugar Signature "Say Hey" Box)
+   ========================================================================== */
+.contact-section {
+    position: relative;
+    padding: 120px 0 100px;
+    background: var(--bg);
+    scroll-margin-top: 70px;
+    z-index: 10;
+}
+
+.contact-card-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: clamp(3rem, 6vw, 5.5rem) clamp(1.5rem, 5vw, 4rem);
+    text-align: center;
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.contact-card-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+    opacity: 0.12;
+    pointer-events: none;
+}
+
+h2.contact-title,
+.contact-title {
+    font-family: var(--font-display) !important;
+    font-size: clamp(2.4rem, 5vw, 4.2rem) !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--text-primary) !important;
+    margin: 16px 0 20px !important;
+    text-transform: none !important;
+}
+
+.contact-title .accent-text {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.contact-sub {
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: var(--text-secondary);
+    max-width: 580px;
+    margin: 0 auto 36px;
+    line-height: 1.6;
+}
+
+.contact-action-row {
+    margin-bottom: 40px;
+}
+
+.contact-big-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1.1rem 2.4rem;
+    background: var(--text-primary);
+    color: var(--bg);
+    border-radius: 9999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-big-btn:hover {
+    background: var(--accent-primary);
+    color: #ffffff;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4);
+}
+
+.contact-big-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.contact-big-btn:hover svg {
+    transform: translateX(4px);
+}
+
+.contact-social-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+}
+
+.social-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.social-link:hover {
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   UNIFIED FOOTER
+   ========================================================================== */
+.unified-footer {
+    padding: 40px 0;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+}
+
+.footer-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.back-to-top {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-top:hover {
+    color: var(--accent-primary);
+    transform: translateY(-2px);
 }

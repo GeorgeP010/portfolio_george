@@ -227,7 +227,7 @@ html, body.studio-body {
    ========================================================================== */
 .studio-viewport {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     overflow: hidden;
     background: #0a0a0a;
@@ -708,3 +708,22 @@ html, body.studio-body {
         transform: translateX(-160px) scale(0.96);
     }
 }
+
+/* Ensure big bold typography on contact section (Mild Sugar Signature) */
+.contact-card-box .contact-title,
+h2.contact-title {
+    font-family: 'Space Grotesk', -apple-system, sans-serif !important;
+    font-size: clamp(2.4rem, 5vw, 4.2rem) !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--text-primary) !important;
+    margin: 16px 0 20px !important;
+    text-transform: none !important;
+}
+
+[data-theme="light"] .contact-card-box .contact-title,
+[data-theme="light"] h2.contact-title {
+    color: #0a0a0a !important;
+}
+

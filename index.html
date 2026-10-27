@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl" data-theme="light">
+<html lang="nl" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     <title>George Pelealuw • Creative Developer & Designer</title>
     <meta name="title" content="George Pelealuw • Creative Developer & Designer">
     <meta name="description"
-        content="Welkom op het portfolio van George Pelealuw, een creative developer uit Rotterdam. Bekijk mijn projecten in web development, UI/UX design en interactieve ervaringen.">
+        content="Portfolio van George Pelealuw, creative developer en UI/UX tester uit Rotterdam. Bekijk 11 interactieve projecten, webapplicaties en de 3D studio.">
     <meta name="keywords"
         content="George Pelealuw, Creative Developer, Web Developer, UI/UX Designer, Rotterdam, Portfolio, Front-end Developer">
     <meta name="author" content="George Pelealuw">
@@ -34,15 +34,17 @@
     <link rel="icon" href="foto.jpg" type="image/jpeg">
     <link rel="canonical" href="https://georgeair.github.io/">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="projects.css">
+    <link rel="stylesheet" href="studio.css">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -66,43 +68,34 @@
     </script>
 </head>
 
-<body>
+<body class="unified-portfolio-body">
 
-    <!-- Grain Overlay -->
+    <!-- Film Grain Overlay -->
     <div class="grain-overlay" aria-hidden="true"></div>
 
-    <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="skip-to-main">Spring naar hoofdinhoud</a>
-
-    <!-- Minimal Header -->
-    <header class="minimal-header" role="banner">
+    <!-- Unified Floating Header (Mild Sugar × Editorial Portfolio) -->
+    <header class="unified-header" role="banner">
         <div class="header-left">
-            <a href="mailto:gpelealuw@gmail.com" class="header-email"
-                aria-label="Email George Pelealuw">GPELEALUW@GMAIL.COM</a>
+            <a href="#hero" class="header-brand">
+                <span class="brand-name">GEORGE PELEALUW</span>
+                <span class="brand-sub">CREATIVE DEVELOPER • ROTTERDAM</span>
+            </a>
         </div>
 
-        <div class="header-center">
-            <div class="header-info-row">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    style="margin-right: 8px;" aria-hidden="true">
-                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span>CREATIVE DEVELOPER</span>
-            </div>
-            <div class="header-info-row indented">
-                <span>BASED ROTTERDAM, NL</span>
-            </div>
-        </div>
+        <nav class="header-nav" aria-label="Hoofdnavigatie">
+            <a href="#hero" class="nav-link active">Studio</a>
+            <a href="#cases" class="nav-link">Cases <span class="nav-count">11</span></a>
+            <a href="#about" class="nav-link">Over Mij</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
 
         <div class="header-right">
-            <a href="studio.html" class="header-studio-pill" aria-label="3D Avatar Studio Experience">
-                <span>3D STUDIO</span>
-                <span class="pill-sparkle">✨</span>
-            </a>
-            <a href="projects.html" class="header-projects-pill" aria-label="Bekijk alle projecten">
-                <span>PROJECTEN</span>
-                <span class="pill-count">11</span>
-            </a>
+            <div class="header-status-pill">
+                <span class="status-dot"></span>
+                <span>BESCHIKBAAR VOOR STAGE</span>
+            </div>
+
+            <!-- Theme Toggle (Light / Dark) -->
             <button class="theme-toggle-minimal" id="themeToggle" aria-label="Toggle dark mode">
                 <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" />
@@ -118,293 +111,612 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main id="main-content">
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-container">
-                <!-- Physics Tags Container -->
-                <div id="physicsContainer" class="physics-container" aria-hidden="true"></div>
 
-                <h1 class="hero-title" aria-label="George Pelealuw">
-                    <div class="hero-title-row">GEORGE</div>
-                    <div class="hero-title-row">PELEALUW</div>
-                </h1>
-            </div>
+        <!-- ===================================================================
+             SECTION 1: 3D Video Studio Hero (Fullscreen Mild Sugar Experience)
+             =================================================================== -->
+        <section id="hero" class="studio-hero-section">
+            <div class="studio-viewport" id="studioViewport">
 
-            <!-- Scroll Indicator -->
-            <div class="scroll-indicator" aria-hidden="true">
-                <span>Scroll</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
+                <!-- 3D Studio Stage with 60fps MP4 Video -->
+                <div class="studio-stage" id="studioStage" role="button" tabindex="0"
+                    aria-label="Klik op George om kennis te maken">
+                    <div class="studio-media-container" id="studioMediaContainer">
+                        <!-- 1. Real MP4 Video: Coding at desk -->
+                        <video id="videoWorking" class="studio-media active" autoplay loop muted playsinline
+                            preload="auto">
+                            <source src="george_working.mp4" type="video/mp4">
+                        </video>
 
-        <!-- Intro Section -->
-        <section class="intro-section" aria-labelledby="intro-heading">
-            <div class="container">
-                <!-- Top Grid: Visuals + Phone -->
-                <div class="intro-grid">
-                    <!-- Centered Dark Card -->
-                    <div class="intro-card-dark centered" role="img" aria-label="Mobile design showcase">
-                        <div class="phone-mockup">
-                            <img src="king_of_the_court.png" alt="King of the Court"
-                                style="width: 100%; height: 100%; object-fit: cover;">
+                        <!-- 2. Real MP4 Video: Front smiling & waving -->
+                        <video id="videoWaving" class="studio-media" loop muted playsinline preload="auto">
+                            <source src="george_waving.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <!-- Rotating Text Badge (Mild Sugar Style) -->
+                    <div class="rotating-badge-container" id="rotatingBadge">
+                        <svg viewBox="0 0 200 200" class="rotating-svg">
+                            <path id="textPath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0"
+                                fill="none" />
+                            <text>
+                                <textPath href="#textPath" startOffset="0%">
+                                    GEORGE PELEALUW • CREATIVE DEVELOPER • ROTTERDAM • SAY HEY •
+                                </textPath>
+                            </text>
+                        </svg>
+                        <div class="badge-center-callout">
+                            <span class="small-text">SAY</span>
+                            <span class="big-text">“Hey!”</span>
                         </div>
                     </div>
+
+                    <!-- Click Trigger Hotspot over Avatar -->
+                    <div class="avatar-click-zone" id="avatarClickZone" title="Klik om kennis te maken!"></div>
                 </div>
 
-                <!-- Bottom: Text Info -->
-                <div class="intro-text-row">
-                    <div class="intro-bio">
-                        <h2 id="intro-heading">Hoi, ik ben George, een creative<br>developer die design en
-                            code<br>combineert.
-                        </h2>
-                    </div>
-                    <div class="intro-details">
-                        <p>Gevestigd in Ridderkerk/Rotterdam. Met een achtergrond in Media (MBO 3) en momenteel
-                            studerend
-                            Software Development, specialiseer ik me in het creëren van interactieve digitale ervaringen
-                            met HTML, CSS, JavaScript en Creative Coding. Ik ontwerp, ontwikkel én test applicaties
-                            om de kwaliteit en gebruikerservaring te verbeteren.</p>
-                    </div>
+                <!-- Custom Cursor Follower ("Stalker") -->
+                <div class="cursor-stalker" id="cursorStalker" aria-hidden="true">
+                    <span>HEY! 🤝</span>
                 </div>
+
+                <!-- Slide-out Side Drawer (Profile Card) -->
+                <aside class="studio-side-panel" id="sidePanel" aria-hidden="true">
+                    <div class="panel-inner">
+                        <button class="panel-close-btn" id="closePanelBtn" aria-label="Sluit profiel">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+
+                        <div class="panel-header">
+                            <div class="panel-greeting">
+                                <span class="greet-title">Hey!</span>
+                                <span class="greet-emoji">🤝</span>
+                            </div>
+                            <h2 class="panel-name">Ik ben George.</h2>
+                            <p class="panel-subtitle">CREATIVE DEVELOPER & UI/UX DESIGNER</p>
+                        </div>
+
+                        <div class="panel-body">
+                            <p class="panel-bio">
+                                Welkom in mijn digitale studio! Ik ben 25 jaar oud uit Ridderkerk. Met een achtergrond
+                                in <strong>Media Productie</strong> en momenteel studerend <strong>Software
+                                    Development</strong> combineer ik creativiteit met code.
+                            </p>
+                            <p class="panel-bio">
+                                Ik bouw interactieve webapplicaties, doordachte UI/UX concepten en test software grondig
+                                voor de beste gebruikerservaring.
+                            </p>
+
+                            <div class="panel-chips">
+                                <span class="chip">🎨 UI/UX DESIGN</span>
+                                <span class="chip">⚡ JAVASCRIPT & REACT</span>
+                                <span class="chip">🧩 SOFTWARE TESTING</span>
+                                <span class="chip">📍 ROTTERDAM BASED</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <a href="#cases" class="btn-primary" id="drawerToCasesBtn">
+                                <span>Bekijk mijn Projecten (11)</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                            <a href="mailto:gpelealuw@gmail.com" class="btn-secondary">
+                                <span>Stuur een bericht</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Scroll Prompt to Cases -->
+                <a href="#cases" class="scroll-prompt-pill" aria-label="Scroll naar projecten">
+                    <span>ONTDEK CASES (11)</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 5v14M19 12l-7 7-7-7" />
+                    </svg>
+                </a>
             </div>
         </section>
 
-        <!-- Skills Marquee -->
-        <section class="marquee-section" aria-label="Skills">
-            <div class="marquee-track">
-                <div class="marquee-item">HTML</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">CSS</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">JavaScript</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">React</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">PHP</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">MySQL</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Figma</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">UI/UX Design</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Creative Coding</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Software Testing</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Git</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Responsive Design</div>
-                <div class="marquee-separator"></div>
-                <!-- Duplicate for seamless loop -->
-                <div class="marquee-item">HTML</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">CSS</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">JavaScript</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">React</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">PHP</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">MySQL</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Figma</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">UI/UX Design</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Creative Coding</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Software Testing</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Git</div>
-                <div class="marquee-separator"></div>
-                <div class="marquee-item">Responsive Design</div>
-                <div class="marquee-separator"></div>
-            </div>
-        </section>
-
-        <!-- Selected Works Section -->
-        <section id="work" class="work-section" aria-labelledby="work-heading">
+        <!-- ===================================================================
+             SECTION 2: Geselecteerde Cases (Mild Sugar Layout × Portfolio Cards)
+             =================================================================== -->
+        <section id="cases" class="cases-section">
             <div class="container">
-                <div class="section-header">
-                    <h2 id="work-heading">Geselecteerde Projecten</h2>
-                    <span class="year-range">2023 — 2026</span>
+                <div class="cases-section-head">
+                    <div class="cases-meta-row">
+                        <span class="meta-tag">// GESELECTEERD WERK • 2023 — 2026</span>
+                        <span class="meta-tag">11 CASES BESCHIKBAAR</span>
+                    </div>
+                    <h2 class="cases-title">Cases</h2>
+                    <p class="cases-subtitle">Doordachte webapplicaties, mobiele concepten en UI/UX interfaces.</p>
+
+                    <!-- Filter Bar -->
+                    <div class="cases-filter-bar" role="tablist" aria-label="Filter projecten">
+                        <button class="cases-filter-btn active" data-filter="all">Alle <span>11</span></button>
+                        <button class="cases-filter-btn" data-filter="web-dev">Web Development <span>6</span></button>
+                        <button class="cases-filter-btn" data-filter="mobile">Mobile & Games <span>2</span></button>
+                        <button class="cases-filter-btn" data-filter="design">UI/UX & Design <span>3</span></button>
+                    </div>
                 </div>
 
-                <!-- Grid Layout -->
-                <div class="work-grid">
-                    <article class="work-card" data-accent="vault">
-                        <a href="projects/the-vault.html" class="work-card-link">
-                            <div class="work-card-image">
-                                <img src="the-vault.png"
-                                    alt="The Vault - Exclusief e-commerce platform voor luxeproducten" loading="lazy">
-                                <div class="work-card-overlay">
-                                    <span class="view-badge">View Case Study</span>
+                <!-- 11 Cases Grid -->
+                <div class="cases-grid">
+
+                    <!-- Case 01: The Vault -->
+                    <article class="creative-project-card" data-category="web-dev">
+                        <a href="projects/the-vault.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="laptop-mockup">
+                                    <div class="laptop-lid">
+                                        <div class="laptop-camera"></div>
+                                        <div class="laptop-screen">
+                                            <img src="the-vault.png" alt="The Vault E-Commerce" loading="lazy">
+                                            <div class="laptop-screen-glare"></div>
+                                        </div>
+                                    </div>
+                                    <div class="laptop-base">
+                                        <div class="laptop-notch"></div>
+                                    </div>
+                                    <div class="laptop-shadow"></div>
+                                </div>
+                                <span class="card-year-tag">2025</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
                                 </div>
                             </div>
-                            <div class="work-card-info">
-                                <h3>The Vault</h3>
-                                <p>Web Development & Design <span>•</span> 2025</p>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">01</span>
+                                    <h3 class="project-name">The Vault</h3>
+                                </div>
+                                <span class="project-tag">Web Development</span>
                             </div>
                         </a>
                     </article>
 
-                    <article class="work-card" data-accent="dapur">
-                        <a href="projects/dapur-ibu.html" class="work-card-link">
-                            <div class="work-card-image">
-                                <img src="dapur ibu.png"
-                                    alt="Dapur Ibu - Website redesign voor Indonesische toko in Voorburg"
-                                    loading="lazy">
-                                <div class="work-card-overlay">
-                                    <span class="view-badge">View Case Study</span>
+                    <!-- Case 02: Dapur Ibu -->
+                    <article class="creative-project-card" data-category="web-dev">
+                        <a href="projects/dapur-ibu.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="laptop-mockup">
+                                    <div class="laptop-lid">
+                                        <div class="laptop-camera"></div>
+                                        <div class="laptop-screen">
+                                            <img src="dapur ibu.png" alt="Dapur Ibu Restaurant" loading="lazy">
+                                            <div class="laptop-screen-glare"></div>
+                                        </div>
+                                    </div>
+                                    <div class="laptop-base">
+                                        <div class="laptop-notch"></div>
+                                    </div>
+                                    <div class="laptop-shadow"></div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
                                 </div>
                             </div>
-                            <div class="work-card-info">
-                                <h3>Dapur Ibu</h3>
-                                <p>Web Development <span>•</span> 2026</p>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">02</span>
+                                    <h3 class="project-name">Dapur Ibu</h3>
+                                </div>
+                                <span class="project-tag">Web Development</span>
                             </div>
                         </a>
                     </article>
 
-                    <article class="work-card" data-accent="edufit">
-                        <a href="projects/edufit.html" class="work-card-link">
-                            <div class="work-card-image">
-                                <img src="projects/edufit.png"
-                                    alt="EduFit - Fitness and health tracking app for students" loading="lazy">
-                                <div class="work-card-overlay">
-                                    <span class="view-badge">View Case Study</span>
+                    <!-- Case 03: Yume Ramen -->
+                    <article class="creative-project-card" data-category="web-dev">
+                        <a href="projects/yume-ramen.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="laptop-mockup">
+                                    <div class="laptop-lid">
+                                        <div class="laptop-camera"></div>
+                                        <div class="laptop-screen">
+                                            <img src="yume_ramen_screenshot.png" alt="Yume Ramen Bar" loading="lazy">
+                                            <div class="laptop-screen-glare"></div>
+                                        </div>
+                                    </div>
+                                    <div class="laptop-base">
+                                        <div class="laptop-notch"></div>
+                                    </div>
+                                    <div class="laptop-shadow"></div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
                                 </div>
                             </div>
-                            <div class="work-card-info">
-                                <h3>EduFit</h3>
-                                <p>Web Development <span>•</span> 2025</p>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">03</span>
+                                    <h3 class="project-name">Yume Ramen</h3>
+                                </div>
+                                <span class="project-tag">Web Development</span>
                             </div>
                         </a>
                     </article>
 
-                    <article class="work-card" data-accent="vibesync">
-                        <a href="projects/vibesync.html" class="work-card-link">
-                            <div class="work-card-image">
-                                <img src="projects/vibesync.png"
-                                    alt="VibeSync - Innovatief Product voor een Culturele Instelling" loading="lazy">
-                                <div class="work-card-overlay">
-                                    <span class="view-badge">View Case Study</span>
+                    <!-- Case 04: EduFit -->
+                    <article class="creative-project-card" data-category="web-dev">
+                        <a href="projects/edufit.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="laptop-mockup">
+                                    <div class="laptop-lid">
+                                        <div class="laptop-camera"></div>
+                                        <div class="laptop-screen">
+                                            <img src="edufit_screenshot.png" alt="EduFit Platform" loading="lazy">
+                                            <div class="laptop-screen-glare"></div>
+                                        </div>
+                                    </div>
+                                    <div class="laptop-base">
+                                        <div class="laptop-notch"></div>
+                                    </div>
+                                    <div class="laptop-shadow"></div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
                                 </div>
                             </div>
-                            <div class="work-card-info">
-                                <h3>VibeSync</h3>
-                                <p>Innovatie & Concept <span>•</span> 2026</p>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">04</span>
+                                    <h3 class="project-name">EduFit</h3>
+                                </div>
+                                <span class="project-tag">Web Development</span>
                             </div>
                         </a>
                     </article>
+
+                    <!-- Case 05: Museum Web App -->
+                    <article class="creative-project-card" data-category="web-dev">
+                        <a href="projects/museum.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="laptop-mockup">
+                                    <div class="laptop-lid">
+                                        <div class="laptop-camera"></div>
+                                        <div class="laptop-screen">
+                                            <img src="museum.png" alt="Museum Web App" loading="lazy">
+                                            <div class="laptop-screen-glare"></div>
+                                        </div>
+                                    </div>
+                                    <div class="laptop-base">
+                                        <div class="laptop-notch"></div>
+                                    </div>
+                                    <div class="laptop-shadow"></div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">05</span>
+                                    <h3 class="project-name">Museum Platform</h3>
+                                </div>
+                                <span class="project-tag">Web Development</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- Case 06: Duo Project -->
+                    <article class="creative-project-card" data-category="web-dev">
+                        <a href="projects/duo.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="laptop-mockup">
+                                    <div class="laptop-lid">
+                                        <div class="laptop-camera"></div>
+                                        <div class="laptop-screen">
+                                            <img src="duo.png" alt="Duo Project" loading="lazy">
+                                            <div class="laptop-screen-glare"></div>
+                                        </div>
+                                    </div>
+                                    <div class="laptop-base">
+                                        <div class="laptop-notch"></div>
+                                    </div>
+                                    <div class="laptop-shadow"></div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">06</span>
+                                    <h3 class="project-name">Duo Platform</h3>
+                                </div>
+                                <span class="project-tag">Web Development</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- Case 07: King of the Court (Mobile Smartphone Mockup) -->
+                    <article class="creative-project-card mobile-card" data-category="mobile">
+                        <a href="projects/king-of-the-court.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="phone-mockup-frame">
+                                    <div class="phone-speaker-notch"></div>
+                                    <div class="phone-screen-container">
+                                        <img src="king_of_the_court.png" alt="King of the Court Mobile Game"
+                                            loading="lazy">
+                                    </div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">07</span>
+                                    <h3 class="project-name">King of the Court</h3>
+                                </div>
+                                <span class="project-tag">Mobile Game & App</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- Case 08: VibeSync (Mobile Smartphone Mockup) -->
+                    <article class="creative-project-card mobile-card" data-category="mobile">
+                        <a href="projects/vibesync.html" class="creative-card-link">
+                            <div class="card-visual-wrapper">
+                                <div class="phone-mockup-frame">
+                                    <div class="phone-speaker-notch"></div>
+                                    <div class="phone-screen-container">
+                                        <img src="court_project.png" alt="VibeSync Mobile Experience" loading="lazy">
+                                    </div>
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">08</span>
+                                    <h3 class="project-name">VibeSync</h3>
+                                </div>
+                                <span class="project-tag">Mobile & Mood</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- Case 09: Digitaal Ecosysteem (Clean Frameless UI Card) -->
+                    <article class="creative-project-card ui-ux-card" data-category="design">
+                        <a href="projects/digitaal-ecosysteem.html" class="creative-card-link">
+                            <div class="card-visual-wrapper frameless-ui">
+                                <div class="ui-sheet-frame">
+                                    <img src="ecosysteem_screenshot.png" alt="Digitaal Ecosysteem Architecture"
+                                        loading="lazy">
+                                </div>
+                                <span class="card-year-tag">2024</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">09</span>
+                                    <h3 class="project-name">Digitaal Ecosysteem</h3>
+                                </div>
+                                <span class="project-tag">UI/UX & Architectuur</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- Case 10: Mindmap (Clean Frameless UI Card) -->
+                    <article class="creative-project-card ui-ux-card" data-category="design">
+                        <a href="projects/mindmap.html" class="creative-card-link">
+                            <div class="card-visual-wrapper frameless-ui">
+                                <div class="ui-sheet-frame">
+                                    <img src="Mindmap.png" alt="Mindmap Interactive UI" loading="lazy">
+                                </div>
+                                <span class="card-year-tag">2023</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">10</span>
+                                    <h3 class="project-name">Mindmap Concept</h3>
+                                </div>
+                                <span class="project-tag">UX Concept</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- Case 11: Album Cover (Square Vinyl Artwork) -->
+                    <article class="creative-project-card artwork-card" data-category="design">
+                        <a href="projects/album-cover.html" class="creative-card-link">
+                            <div class="card-visual-wrapper vinyl-art-wrapper">
+                                <div class="vinyl-square-frame">
+                                    <img src="Album Cover_DEF.png" alt="Album Cover Design & Branding" loading="lazy">
+                                </div>
+                                <span class="card-year-tag">2023</span>
+                                <div class="card-hover-indicator">
+                                    <span>Bekijk Case</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-caption">
+                                <div class="caption-left">
+                                    <span class="project-num">11</span>
+                                    <h3 class="project-name">Album Cover & Branding</h3>
+                                </div>
+                                <span class="project-tag">Visual Identity</span>
+                            </div>
+                        </a>
+                    </article>
+
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="about-section" aria-labelledby="about-heading">
-            <div class="container-small">
-                <h2 id="about-heading" class="section-title">Over Mij</h2>
-                <div class="about-split">
-                    <div class="about-text">
-                        <p class="lead">Ik ben George, 25 jaar oud uit Ridderkerk. Een creative developer, designer én
-                            tester gepassioneerd over het bouwen van mooie, functionele digitale ervaringen.</p>
-                        <p>Met een achtergrond in Media Productie (MBO 3, 2018-2023) en momenteel studerend Software
-                            Development, combineer ik design denken met development vaardigheden om unieke producten te
-                            creëren. Ik bouw niet alleen websites—ik test en verbeter applicaties zodat ze soepel
-                            werken en gebruikers blij maken.</p>
-                        <p>Momenteel op zoek naar een stage als <strong>UI/UX Designer</strong> of <strong>Software
-                                Tester</strong>, waar ik frisse ideeën, moderne webtechnieken en testervaring kan
-                            inzetten voor echte projecten.</p>
-                    </div>
-                    <div class="about-image">
-                        <img src="foto.jpg" alt="George Pelealuw - Creative Developer" loading="lazy">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Timeline -->
-        <section class="experience-section" aria-labelledby="journey-heading">
+        <!-- ===================================================================
+             SECTION 3: Over Mij (Mild Sugar Editorial Narrative)
+             =================================================================== -->
+        <section id="about" class="about-section">
             <div class="container">
-                <h2 id="journey-heading" class="section-title">Reis</h2>
-                <div class="timeline-horizontal" id="timelineTrack" role="list">
-                    <div class="timeline-item" role="listitem">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2018</div>
-                        <div class="timeline-content">
-                            <h3>Start</h3>
-                            <p>Media Productie GLR</p>
-                        </div>
+                <div class="about-split-grid">
+                    <div class="about-col-headline">
+                        <span class="section-tag">// OVER GEORGE</span>
+                        <h2 class="about-big-title">Van Media Productie naar Software Development.</h2>
+                        <p class="about-tagline">Waar creatief design doordachte code en grondig software testen
+                            ontmoet.</p>
                     </div>
-                    <div class="timeline-item" role="listitem">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2023</div>
-                        <div class="timeline-content">
-                            <h3>Afgestudeerd</h3>
-                            <p>MBO 3 Diploma</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item" role="listitem">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2024</div>
-                        <div class="timeline-content">
-                            <h3>Evolutie</h3>
-                            <p>Software Developer</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item" role="listitem">
-                        <div class="timeline-dot pulse"></div>
-                        <div class="timeline-year">2026</div>
-                        <div class="timeline-content">
-                            <h3>Nu</h3>
-                            <p>Stage UI/UX & Software Tester</p>
+
+                    <div class="about-col-content">
+                        <p class="about-p">
+                            Ik ben George, 25 jaar oud uit Ridderkerk. Met een afgeronde achtergrond in <strong>Media
+                                Productie (MBO 3, 2018-2023)</strong> en momenteel studerend <strong>Software
+                                Development</strong> breng ik een krachtige combinatie mee: scherp oog voor esthetiek,
+                            doordacht UI/UX design én de technische vaardigheden om applicaties te bouwen en grondig te
+                            testen.
+                        </p>
+                        <p class="about-p">
+                            Mijn focus ligt op het creëren van levendige, interactieve webapplicaties die niet alleen
+                            prachtig ogen, maar ook technisch solide en betrouwbaar zijn. Ik ben per direct gemotiveerd
+                            en beschikbaar voor een uitdagende <strong>stage of junior rol</strong> in de regio
+                            Rotterdam of hybride.
+                        </p>
+
+                        <!-- Highlights Grid -->
+                        <div class="about-stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-num">25</span>
+                                <span class="stat-label">Jaar Oud</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-num">11</span>
+                                <span class="stat-label">Projecten</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-num">MBO 3</span>
+                                <span class="stat-label">Media Productie</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-num">SD</span>
+                                <span class="stat-label">Software Dev</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="contact-section" aria-labelledby="contact-heading">
+        <!-- ===================================================================
+             SECTION 4: Say Hey / Contact (Mild Sugar Style)
+             =================================================================== -->
+        <section id="contact" class="contact-section">
             <div class="container">
-                <h2 id="contact-heading">NEEM CONTACT OP</h2>
-                <a href="mailto:gpelealuw@gmail.com" class="email-link"
-                    aria-label="Send email to George Pelealuw">GPELEALUW@GMAIL.COM</a>
+                <div class="contact-card-box">
+                    <span class="section-tag">// CONTACT</span>
+                    <h2 class="contact-title">Don’t be shy.<br>Feel free to say <span class="accent-text">“Hey!”</span>
+                    </h2>
+                    <p class="contact-sub">
+                        Op zoek naar een creatieve developer of tester voor een stage of samenwerking? Mijn inbox staat
+                        altijd open.
+                    </p>
 
-                <nav class="social-links" aria-label="Social media links">
-                    <a href="https://www.instagram.com/georgee_pl/" target="_blank" rel="noopener noreferrer"
-                        aria-label="Visit George's Instagram profile">Instagram</a>
-                    <a href="https://www.linkedin.com/in/george-pelealuw-3a8276251/" target="_blank"
-                        rel="noopener noreferrer" aria-label="Visit George's LinkedIn profile">LinkedIn</a>
-                    <a href="https://github.com/GeorgeP010" target="_blank" rel="noopener noreferrer"
-                        aria-label="Visit George's GitHub profile">GitHub</a>
-                </nav>
+                    <div class="contact-action-row">
+                        <a href="mailto:gpelealuw@gmail.com" class="contact-big-btn">
+                            <span>STUUR EEN BERICHT</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="contact-social-row">
+                        <a href="https://github.com/GeorgeP010" target="_blank" rel="noopener"
+                            class="social-link">GitHub ↗</a>
+                        <a href="https://www.linkedin.com/in/george-pelealuw-3a8276251/" target="_blank" rel="noopener"
+                            class="social-link">LinkedIn ↗</a>
+                        <a href="https://www.instagram.com/georgee_pl/" target="_blank" rel="noopener"
+                            class="social-link">Instagram ↗</a>
+                    </div>
+                </div>
             </div>
         </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-content">
-                <span class="footer-copy">2026 GEORGE PELEALUW</span>
-                <div class="footer-label">
-                    <span>CREATIVE DEVELOPER</span>
-                    <span>BASED ROTTERDAM, NL</span>
-                </div>
-            </div>
+    <!-- Unified Footer -->
+    <footer class="unified-footer">
+        <div class="container footer-flex">
+            <p>© 2026 George Pelealuw • Creative Developer • Rotterdam, NL</p>
+            <a href="#hero" class="back-to-top">Naar Boven ↑</a>
         </div>
     </footer>
 
-    <!-- Scripts - Deferred for performance -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-    <script defer src="main.js"></script>
+    <!-- Main Logic Script -->
+    <script src="main.js"></script>
 </body>
 
 </html>
