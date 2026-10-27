@@ -282,13 +282,29 @@
 .card-visual-wrapper {
     position: relative;
     width: 100%;
-    height: 340px;
-    border-radius: 20px;
-    overflow: hidden;
+    height: 380px;
+    border-radius: 24px;
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     box-shadow: var(--card-shadow);
-    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 28px 24px;
+    overflow: hidden;
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.3s ease;
+}
+
+/* Subtle ambient stage backlight */
+.card-visual-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08), transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
 }
 
 .creative-project-card:hover .card-visual-wrapper {
@@ -297,15 +313,184 @@
     border-color: var(--accent-primary);
 }
 
-.card-visual-wrapper img {
+.creative-project-card:hover .card-visual-wrapper::before {
+    opacity: 1;
+}
+
+/* ========== REALISTIC LAPTOP MOCKUP (MacBook Style) ========== */
+.laptop-mockup {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    z-index: 1;
+}
+
+.creative-project-card:hover .laptop-mockup {
+    transform: translateY(-5px) scale(1.025);
+}
+
+/* Laptop Screen Lid / Top Display */
+.laptop-lid {
+    position: relative;
+    width: 86%;
+    aspect-ratio: 16 / 10;
+    background: #0f1013;
+    border: 2.5px solid #282a30;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 10px 10px 7px;
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.12),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.5),
+        0 10px 28px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+}
+
+/* Front Camera */
+.laptop-camera {
+    position: absolute;
+    top: 3.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #1e2025;
+    border: 0.5px solid #3d4048;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0, 255, 180, 0.25);
+    z-index: 4;
+}
+
+/* Display Viewport */
+.laptop-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+    border-radius: 5px 5px 2px 2px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.laptop-screen img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--ease);
+    object-position: top center;
+    display: block;
+    transition: transform 0.7s var(--ease);
 }
 
-.creative-project-card:hover .card-visual-wrapper img {
-    transform: scale(1.06);
+.creative-project-card:hover .laptop-screen img {
+    transform: scale(1.035);
+}
+
+/* Mobile Apps & Square Artwork inside Laptop Simulator */
+.creative-project-card[data-title="VibeSync"] .laptop-screen,
+.creative-project-card[data-title="King of the Court"] .laptop-screen {
+    background: radial-gradient(circle at center, #1c1d24 0%, #0a0b0d 100%);
+}
+.creative-project-card[data-title="VibeSync"] .laptop-screen img,
+.creative-project-card[data-title="King of the Court"] .laptop-screen img {
+    object-fit: contain;
+    padding: 6px;
+}
+
+.creative-project-card[data-title="Album Cover Design"] .laptop-screen {
+    background: #0a0a0c;
+}
+.creative-project-card[data-title="Album Cover Design"] .laptop-screen img {
+    object-fit: contain;
+    padding: 4px;
+}
+
+/* Realistic Glass Reflection Sheen */
+.laptop-screen-glare {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        130deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.04) 35%,
+        transparent 55%
+    );
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity 0.4s ease;
+}
+
+/* Laptop Base (Chassis) */
+.laptop-base {
+    position: relative;
+    width: 100%;
+    height: 13px;
+    background: linear-gradient(to bottom, #dbe0e6 0%, #b8bcc4 50%, #959aa2 100%);
+    border-radius: 1px 1px 10px 10px;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.35),
+        0 4px 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+/* Dark Mode Laptop Base (Space Gray) */
+[data-theme="dark"] .laptop-base {
+    background: linear-gradient(to bottom, #3b3d44 0%, #25272d 50%, #17181c 100%);
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.6),
+        0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Opening Notch / Thumb Indentation */
+.laptop-notch {
+    width: 58px;
+    height: 4px;
+    background: #737780;
+    border-radius: 0 0 4px 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .laptop-notch {
+    background: #111215;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+/* Realistic Ground Contact Shadow */
+.laptop-shadow {
+    width: 90%;
+    height: 14px;
+    margin: -3px auto 0;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 72%);
+    border-radius: 50%;
+    filter: blur(4px);
+    transition: all 0.5s var(--ease);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.creative-project-card:hover .laptop-shadow {
+    transform: scaleX(1.06) translateY(3px);
+    opacity: 0.65;
+    filter: blur(6px);
 }
 
 .card-year-tag {
@@ -322,7 +507,7 @@
     font-weight: 700;
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    z-index: 2;
+    z-index: 5;
 }
 
 .card-hover-indicator {
@@ -344,7 +529,7 @@
     opacity: 0;
     transform: translateY(12px);
     transition: all 0.35s var(--ease);
-    z-index: 2;
+    z-index: 5;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
@@ -590,7 +775,22 @@
         gap: 32px;
     }
     .card-visual-wrapper {
-        height: 240px;
+        min-height: 270px;
+        padding: 30px 18px 22px;
+    }
+    .laptop-mockup {
+        max-width: 380px;
+    }
+    .laptop-lid {
+        width: 88%;
+        padding: 8px 8px 5px;
+    }
+    .laptop-base {
+        height: 10px;
+    }
+    .laptop-notch {
+        width: 44px;
+        height: 3px;
     }
     .list-category {
         display: none;
