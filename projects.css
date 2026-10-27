@@ -60,35 +60,10 @@
 .projects-header-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
 }
 
-.header-studio-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--accent-primary);
-    text-decoration: none;
-    transition: all 0.3s var(--ease);
-}
-
-.header-studio-pill:hover {
-    background: var(--accent-primary);
-    color: #fff;
-    border-color: var(--accent-primary);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
-}
-
-.projects-header .header-status-pill {
+.header-status-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
