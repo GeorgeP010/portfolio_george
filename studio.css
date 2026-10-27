@@ -1,35 +1,20 @@
 /* ==========================================================================
    GEORGE PELEALUW — 3D AVATAR STUDIO EXPERIENCE
-   Inspired by Mild Sugar Design (mildsugardesign.jp)
+   Mild Sugar Design Concept × George Pelealuw Portfolio Identity
    ========================================================================== */
 
 :root {
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'Space Mono', monospace;
-    --bg-studio: #0e0f12;
-    --text-primary: #111418;
-    --text-secondary: #5a6270;
-    --text-muted: #8a93a0;
-    --accent: #2563eb;
-    --accent-glow: rgba(37, 99, 235, 0.25);
-    --surface-glass: rgba(255, 255, 255, 0.88);
-    --border-glass: rgba(255, 255, 255, 0.4);
-    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-    --shadow-panel: -15px 0 50px rgba(0, 0, 0, 0.2);
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
+html, body.studio-body {
     width: 100%;
     height: 100%;
     overflow: hidden;
     font-family: var(--font-sans);
-    background-color: var(--bg-studio);
+    background-color: #0a0a0a;
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -38,20 +23,20 @@ html, body {
 }
 
 /* ==========================================================================
-   1. FLOATING STUDIO HEADER
+   1. MINIMAL HEADER (PORTFOLIO STYLE)
    ========================================================================== */
 .studio-header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 72px;
-    padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+    height: 76px;
+    padding: 0 clamp(1.25rem, 3.5vw, 3rem);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 40;
-    background: linear-gradient(180deg, rgba(14, 15, 18, 0.75) 0%, rgba(14, 15, 18, 0) 100%);
+    z-index: 50;
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0) 100%);
     pointer-events: none;
 }
 
@@ -62,7 +47,6 @@ html, body {
 .header-left {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
 }
 
 .back-link {
@@ -70,13 +54,14 @@ html, body {
     align-items: center;
     gap: 0.6rem;
     padding: 0.55rem 1.1rem;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 9999px;
     color: #ffffff;
-    font-size: 0.82rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-decoration: none;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -84,8 +69,10 @@ html, body {
 }
 
 .back-link:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: #ffffff;
+    color: #0a0a0a;
     transform: translateX(-2px);
+    border-color: #ffffff;
 }
 
 .back-link svg {
@@ -96,20 +83,36 @@ html, body {
     transform: translateX(-3px);
 }
 
-.role-tag {
+/* Header Center Info (Portfolio Brutalist Typography) */
+.header-center-info {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-family: var(--font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.65);
-    display: none;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
 }
 
-@media (min-width: 768px) {
-    .role-tag {
-        display: inline-block;
+@media (min-width: 900px) {
+    .header-center-info {
+        display: flex;
     }
 }
 
+.header-center-info .header-info-row {
+    display: flex;
+    align-items: center;
+}
+
+.header-center-info .indented {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.66rem;
+}
+
+/* Header Right Actions */
 .header-right {
     display: flex;
     align-items: center;
@@ -120,16 +123,17 @@ html, body {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.55rem 1.1rem;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 0.55rem 1.15rem;
+    background: #ffffff;
+    border: 1px solid #ffffff;
     border-radius: 9999px;
-    color: #111418;
-    font-size: 0.82rem;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-decoration: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -137,11 +141,13 @@ html, body {
 
 .projects-pill:hover {
     transform: translateY(-2px);
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
 }
 
-.pill-count {
+.projects-pill .pill-count {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -149,59 +155,82 @@ html, body {
     height: 20px;
     padding: 0 6px;
     border-radius: 9999px;
-    background: #111418;
+    background: #0a0a0a;
     color: #ffffff;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 800;
+    font-family: var(--font-mono);
+    transition: background 0.25s ease;
 }
 
-.status-indicator {
-    display: inline-flex;
+.projects-pill:hover .pill-count {
+    background: #ffffff;
+    color: var(--accent-primary);
+}
+
+.header-status-pill {
+    display: none;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.55rem;
     padding: 0.55rem 0.95rem;
-    background: rgba(14, 15, 18, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 9999px;
     color: rgba(255, 255, 255, 0.85);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     font-family: var(--font-mono);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    display: none;
 }
 
-@media (min-width: 900px) {
-    .status-indicator {
+@media (min-width: 1050px) {
+    .header-status-pill {
         display: inline-flex;
     }
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
+.header-status-pill .status-dot {
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #10b981;
     box-shadow: 0 0 10px #10b981;
-    animation: pulseDot 2s infinite ease-in-out;
+    animation: statusPulse 2s infinite ease-in-out;
 }
 
-@keyframes pulseDot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.45; transform: scale(0.85); }
+/* Theme Toggle Button */
+.theme-toggle-minimal {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-toggle-minimal:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(30deg);
 }
 
 /* ==========================================================================
-   2. MAIN STUDIO VIEWPORT & STAGE
+   2. MAIN STUDIO VIEWPORT & VIDEO STAGE
    ========================================================================== */
 .studio-viewport {
     position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: #0e0f12;
+    background: #0a0a0a;
 }
 
 .studio-stage {
@@ -211,6 +240,7 @@ html, body {
     height: 100%;
     cursor: pointer;
     overflow: hidden;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .studio-media-container {
@@ -241,39 +271,15 @@ html, body {
     z-index: 2;
 }
 
-.studio-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-    transform: scale(1);
-    will-change: opacity;
-}
-
-.studio-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center bottom;
-    display: block;
-}
-
-.studio-bg.active {
-    opacity: 1;
-    z-index: 2;
-}
-
 /* ==========================================================================
-   3. ROTATING CIRCULAR TEXT BADGE (Mild Sugar Style)
+   3. ROTATING CIRCULAR TEXT BADGE (Mild Sugar × Portfolio Style)
    ========================================================================== */
 .rotating-badge-container {
     position: absolute;
     top: clamp(14%, 20vh, 26%);
     left: clamp(52%, 58vw, 68%);
-    width: clamp(150px, 15vw, 210px);
-    height: clamp(150px, 15vw, 210px);
+    width: clamp(160px, 16vw, 220px);
+    height: clamp(160px, 16vw, 220px);
     z-index: 10;
     pointer-events: none;
     transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -288,17 +294,17 @@ html, body {
     inset: 0;
     width: 100%;
     height: 100%;
-    animation: rotateBadge 18s linear infinite;
+    animation: rotateBadge 20s linear infinite;
     overflow: visible;
 }
 
 .rotating-svg text {
-    font-family: var(--font-sans);
-    font-size: 13.5px;
+    font-family: var(--font-display);
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.16em;
     fill: #ffffff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 @keyframes rotateBadge {
@@ -310,14 +316,14 @@ html, body {
     position: absolute;
     inset: 0;
     margin: auto;
-    width: 72px;
-    height: 72px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -330,18 +336,18 @@ html, body {
 
 .badge-center-callout .small-text {
     font-family: var(--font-mono);
-    font-size: 0.48rem;
+    font-size: 0.52rem;
     font-weight: 700;
     color: #64748b;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
 .badge-center-callout .big-text {
-    font-family: var(--font-sans);
-    font-size: 1.05rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
     font-weight: 800;
-    color: #0f172a;
+    color: #0a0a0a;
 }
 
 /* Hide badge when front profile is active */
@@ -356,16 +362,16 @@ html, body {
    ========================================================================== */
 .avatar-click-zone {
     position: absolute;
-    top: 25%;
+    top: 22%;
     left: 32%;
     width: 36%;
-    height: 65%;
+    height: 68%;
     z-index: 5;
     cursor: pointer;
 }
 
 /* ==========================================================================
-   5. MOUSE STALKER / CURSOR FOLLOWER
+   5. MOUSE STALKER / CURSOR FOLLOWER (Portfolio Pill Style)
    ========================================================================== */
 .cursor-stalker {
     position: fixed;
@@ -386,12 +392,13 @@ html, body {
     padding: 0.45rem 0.95rem;
     border-radius: 9999px;
     background: #ffffff;
-    color: #0f172a;
-    font-size: 0.82rem;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    letter-spacing: 0.05em;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     white-space: nowrap;
     animation: stalkerFloat 2s ease-in-out infinite alternate;
 }
@@ -406,9 +413,9 @@ html, body {
 }
 
 .cursor-stalker.hovering-avatar span {
-    background: #2563eb;
+    background: var(--accent-primary);
     color: #ffffff;
-    box-shadow: 0 8px 28px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45);
     border-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -419,20 +426,20 @@ html, body {
 }
 
 /* ==========================================================================
-   6. SLIDE-OUT PROFILE DRAWER (Mild Sugar Style Side Panel)
+   6. SLIDE-OUT PROFILE DRAWER (George Portfolio Card System)
    ========================================================================== */
 .studio-side-panel {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(460px, 94vw);
+    width: min(470px, 94vw);
     height: 100vh;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-left: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: var(--shadow-panel);
+    background: rgba(17, 17, 17, 0.92);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.4);
     z-index: 60;
     transform: translateX(105%);
     transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
@@ -440,6 +447,15 @@ html, body {
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    color: #fafafa;
+}
+
+/* Light Mode Drawer */
+[data-theme="light"] .studio-side-panel {
+    background: rgba(255, 255, 255, 0.92);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.15);
+    color: #0a0a0a;
 }
 
 .studio-side-panel.open {
@@ -461,24 +477,34 @@ html, body {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #334155;
+    color: #ffffff;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .panel-close-btn {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #334155;
 }
 
 .panel-close-btn:hover {
-    background: #e2e8f0;
-    color: #0f172a;
+    background: rgba(255, 255, 255, 0.25);
     transform: rotate(90deg);
 }
 
+[data-theme="light"] .panel-close-btn:hover {
+    background: #e2e8f0;
+    color: #0a0a0a;
+}
+
 .panel-header {
-    margin-top: 2rem;
+    margin-top: 1.75rem;
     margin-bottom: 1.75rem;
 }
 
@@ -486,15 +512,14 @@ html, body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
 }
 
 .greet-title {
-    font-family: var(--font-sans);
-    font-size: 2.2rem;
+    font-family: var(--font-display);
+    font-size: 2.3rem;
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: #0f172a;
 }
 
 .greet-emoji {
@@ -516,19 +541,19 @@ html, body {
 }
 
 .panel-name {
-    font-size: 1.4rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     letter-spacing: -0.02em;
 }
 
 .panel-subtitle {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    color: #2563eb;
-    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
@@ -541,13 +566,21 @@ html, body {
 
 .panel-bio {
     font-size: 0.95rem;
-    line-height: 1.65;
-    color: #475569;
+    line-height: 1.68;
+    color: #a3a3a3;
+}
+
+[data-theme="light"] .panel-bio {
+    color: #4b5563;
 }
 
 .panel-bio strong {
-    color: #0f172a;
+    color: #ffffff;
     font-weight: 700;
+}
+
+[data-theme="light"] .panel-bio strong {
+    color: #0a0a0a;
 }
 
 .panel-chips {
@@ -559,28 +592,46 @@ html, body {
 
 .chip {
     padding: 0.45rem 0.85rem;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 9999px;
-    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
     font-weight: 600;
-    color: #334155;
+    letter-spacing: 0.05em;
+    color: #d4d4d4;
     transition: all 0.2s ease;
 }
 
+[data-theme="light"] .chip {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
 .chip:hover {
-    background: #e2e8f0;
-    color: #0f172a;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-1px);
+}
+
+[data-theme="light"] .chip:hover {
+    background: #e2e8f0;
+    color: #0a0a0a;
 }
 
 .panel-footer {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.85rem;
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .panel-footer {
+    border-top-color: #e2e8f0;
 }
 
 .btn-primary, .btn-secondary {
@@ -589,22 +640,32 @@ html, body {
     justify-content: center;
     gap: 0.65rem;
     padding: 0.95rem 1.4rem;
-    border-radius: 14px;
-    font-size: 0.92rem;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
     font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary {
-    background: #0f172a;
+    background: #ffffff;
+    color: #0a0a0a;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .btn-primary {
+    background: #0a0a0a;
     color: #ffffff;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:hover {
-    background: #2563eb;
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+    background: var(--accent-primary);
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
     transform: translateY(-2px);
 }
 
@@ -617,24 +678,32 @@ html, body {
 }
 
 .btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #fafafa;
+}
+
+[data-theme="light"] .btn-secondary {
     background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    border-color: #cbd5e1;
     color: #1e293b;
 }
 
 .btn-secondary:hover {
-    background: #e2e8f0;
-    color: #0f172a;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
     transform: translateY(-2px);
+}
+
+[data-theme="light"] .btn-secondary:hover {
+    background: #e2e8f0;
+    color: #0a0a0a;
 }
 
 /* ==========================================================================
    7. STAGE SHIFT WHEN DRAWER IS OPEN (Mild Sugar Desktop Experience)
    ========================================================================== */
 @media (min-width: 1024px) {
-    .studio-stage {
-        transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-    }
     .studio-viewport.panel-open .studio-stage {
         transform: translateX(-160px) scale(0.96);
     }

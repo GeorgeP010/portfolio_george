@@ -22,6 +22,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let isFrontActive = false;
     let audioCtx = null;
 
+    // ========== THEME TOGGLE (PORTFOLIO INTEGRATION) ==========
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlElement.setAttribute('data-theme', savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            themeToggle.style.transform = 'rotate(360deg) scale(1.15)';
+            setTimeout(() => {
+                themeToggle.style.transform = '';
+            }, 400);
+        });
+    }
+
     // Ensure both videos are primed and preloaded
     if (videoWorking) {
         videoWorking.play().catch(() => {});
