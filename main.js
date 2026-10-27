@@ -517,15 +517,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     waitForGSAP();
 
-    // ========== PARALLAX SCROLL EFFECT & PROGRESS ==========
+    // ========== PARALLAX SCROLL EFFECT & HEADER SCROLLED ==========
     const heroContainer = document.querySelector('.hero-container');
     const scrollIndicator = document.querySelector('.scroll-indicator');
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    progressBar.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(progressBar);
+    const minimalHeader = document.querySelector('.minimal-header');
 
-    function handleScrollUpdate(scrollY, maxScroll) {
+    function handleScrollUpdate(scrollY) {
         if (heroContainer && scrollY < window.innerHeight) {
             const rate = scrollY * 0.4;
             heroContainer.style.transform = `translateY(${rate}px)`;
@@ -536,23 +533,25 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollIndicator.style.opacity = Math.max(0, 1 - scrollY / 200);
         }
 
-        if (progressBar && maxScroll > 0) {
-            const scrolled = (scrollY / maxScroll) * 100;
-            progressBar.style.width = scrolled + '%';
+        if (minimalHeader) {
+            if (scrollY > 50) {
+                minimalHeader.classList.add('scrolled');
+            } else {
+                minimalHeader.classList.remove('scrolled');
+            }
         }
     }
 
     if (window.lenis) {
-        window.lenis.on('scroll', ({ scroll, limit }) => {
-            handleScrollUpdate(scroll, limit);
+        window.lenis.on('scroll', ({ scroll }) => {
+            handleScrollUpdate(scroll);
         });
     } else {
         let ticking = false;
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                    handleScrollUpdate(window.pageYOffset, maxScroll);
+                    handleScrollUpdate(window.pageYOffset);
                     ticking = false;
                 });
                 ticking = true;
@@ -560,17 +559,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }, { passive: true });
     }
 
-    // ========== WORK CARDS ENHANCED HOVER ==========
-    document.querySelectorAll('.work-card').forEach(card => {
-        const image = card.querySelector('.work-card-image img');
+    // Initial check on load
+    handleScrollUpdate(window.pageYOffset || 0);
 
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
+    // ========== WORK CARDS ENHANCED HOVER ==========
+    document.querySelectorAll('.work-card-link').forEach(link => {
+        const image = link.querySelector('.work-card-image img');
+        const card = link.closest('.work-card') || link;
+
+        link.addEventListener('mousemove', (e) => {
+            const rect = link.getBoundingClientRect();
             const x = (e.clientX - rect.left) / rect.width - 0.5;
             const y = (e.clientY - rect.top) / rect.height - 0.5;
 
             if (image) {
-                image.style.transform = `scale(1.08) translate(${x * 15}px, ${y * 15}px)`;
+                image.style.transform = `scale(1.08) translate(${x * 12}px, ${y * 12}px)`;
             }
 
             card.style.transform = `
@@ -581,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
         });
 
-        card.addEventListener('mouseleave', () => {
+        link.addEventListener('mouseleave', () => {
             if (image) {
                 image.style.transform = 'scale(1)';
             }
