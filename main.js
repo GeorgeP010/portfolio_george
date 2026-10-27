@@ -110,14 +110,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const { Engine, World, Bodies, Runner, Body } = Matter;
+            const { Engine, World, Bodies, Body } = Matter;
 
             const containerRect = physicsContainer.getBoundingClientRect();
             const width = containerRect.width;
             const height = containerRect.height;
 
             const engine = Engine.create();
-            engine.world.gravity.y = 0.3;
+            engine.world.gravity.y = 0.20;
 
             const boundaryOptions = {
                 isStatic: true,
@@ -203,22 +203,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const body = Bodies.rectangle(spawnX, spawnY, tagWidth, tagHeight, {
                     render: { fillStyle: 'transparent' },
-                    restitution: 0.55,
-                    frictionAir: 0.015,
-                    friction: 0.2,
+                    restitution: 0.48,
+                    frictionAir: 0.024,
+                    friction: 0.25,
                     density: 0.001
                 });
 
                 Body.setVelocity(body, {
-                    x: (Math.random() - 0.5) * 1.5,
-                    y: 1.5 + Math.random() * 1.5
+                    x: (Math.random() - 0.5) * 0.8,
+                    y: 0.3 + Math.random() * 0.3
                 });
-                Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.04);
+                Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.02);
 
                 setTimeout(() => {
                     tagElement.style.opacity = '1';
-                    tagElement.style.transition = 'opacity 0.4s ease';
-                }, index * 80);
+                    tagElement.style.transition = 'opacity 0.5s ease';
+                }, index * 110);
 
                 return { elem: tagElement, body: body };
             });
@@ -263,36 +263,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 ...tagBodies.map(tb => tb.body)
             ]);
 
-            const runner = Runner.create();
-            Runner.run(runner, engine);
+            // Unified delta-time physics update (100% framerate-independent across 60Hz, 120Hz, 144Hz+)
+            let lastPhysicsTime = performance.now();
+            function updatePhysics(now) {
+                if (!now) now = performance.now();
+                const elapsed = Math.min(now - lastPhysicsTime, 40);
+                lastPhysicsTime = now;
 
-            // Pause physics during scroll for better performance
-            let scrollTimeout;
-            let isScrolling = false;
-
-            window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    isScrolling = true;
-                    engine.enabled = false;
+                if (engine.enabled !== false && elapsed > 0) {
+                    Engine.update(engine, elapsed);
                 }
 
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    isScrolling = false;
-                    engine.enabled = true;
-                }, 150);
-            }, { passive: true });
-
-            function updateTags() {
                 tagBodies.forEach(({ body, elem }) => {
                     const { x, y } = body.position;
                     elem.style.left = `${x}px`;
                     elem.style.top = `${y}px`;
                     elem.style.transform = `translate(-50%, -50%) rotate(${body.angle}rad)`;
                 });
-                requestAnimationFrame(updateTags);
+
+                requestAnimationFrame(updatePhysics);
             }
-            updateTags();
+            requestAnimationFrame(updatePhysics);
         } catch (error) {
             console.error('Physics engine initialization failed:', error);
             showStaticTags();
@@ -613,11 +604,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let dots = [];
         const spacing = 32;
-        const baseRadius = 1.6;
-        const maxRadius = 3.2;
-        const mouseRadius = 135;
-        const springK = 0.085;
-        const damping = 0.85;
+        const baseRadius = 1.5;
+        const maxRadius = 3.0;
+        const mouseRadius = 130;
+        const springK = 0.055;
+        const damping = 0.88;
 
         const mouse = {
             x: -1000,
@@ -632,6 +623,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const shockwaves = [];
         let isRunning = false;
         let animationFrameId = null;
+        let lastDotTime = performance.now();
 
         function getThemeColors() {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -698,14 +690,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        function update() {
+        function update(now) {
+            if (!now) now = performance.now();
+            const elapsed = Math.min(now - lastDotTime, 40);
+            lastDotTime = now;
+            // Frame rate delta ratio (1.0 at 60fps = 16.667ms)
+            const dt = Math.max(elapsed / 16.667, 0.1);
+
             let hasMovement = false;
 
             // Update shockwaves
             for (let i = shockwaves.length - 1; i >= 0; i--) {
                 const sw = shockwaves[i];
-                sw.radius += sw.speed;
-                sw.intensity *= 0.955;
+                sw.radius += sw.speed * dt;
+                sw.intensity *= Math.pow(0.965, dt);
                 if (sw.radius > sw.maxRadius || sw.intensity < 0.01) {
                     shockwaves.splice(i, 1);
                 } else {
@@ -724,11 +722,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     if (dist < mouseRadius && dist > 0) {
                         const norm = 1 - dist / mouseRadius;
-                        const pushForce = norm * norm * 7.0;
+                        const pushForce = norm * norm * 5.5 * dt;
                         const angle = Math.atan2(dy, dx);
 
-                        dot.vx += Math.cos(angle) * pushForce + mouse.vx * 0.15 * norm;
-                        dot.vy += Math.sin(angle) * pushForce + mouse.vy * 0.15 * norm;
+                        dot.vx += Math.cos(angle) * pushForce + mouse.vx * 0.12 * norm * dt;
+                        dot.vy += Math.sin(angle) * pushForce + mouse.vy * 0.12 * norm * dt;
 
                         dot.highlight = Math.max(dot.highlight, norm);
                         hasMovement = true;
@@ -745,7 +743,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     if (waveDist < sw.thickness && sdist > 0) {
                         const waveNorm = 1 - waveDist / sw.thickness;
-                        const wavePush = waveNorm * sw.intensity * 9.0;
+                        const wavePush = waveNorm * sw.intensity * 7.5 * dt;
                         const sAngle = Math.atan2(sdy, sdx);
 
                         dot.vx += Math.cos(sAngle) * wavePush;
@@ -759,13 +757,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const ax = (dot.ox - dot.x) * springK;
                 const ay = (dot.oy - dot.y) * springK;
 
-                dot.vx = (dot.vx + ax) * damping;
-                dot.vy = (dot.vy + ay) * damping;
+                dot.vx = (dot.vx + ax * dt) * Math.pow(damping, dt);
+                dot.vy = (dot.vy + ay * dt) * Math.pow(damping, dt);
 
-                dot.x += dot.vx;
-                dot.y += dot.vy;
+                dot.x += dot.vx * dt;
+                dot.y += dot.vy * dt;
 
-                dot.highlight *= 0.91;
+                dot.highlight *= Math.pow(0.92, dt);
 
                 if (Math.abs(dot.vx) > 0.01 || Math.abs(dot.vy) > 0.01 || Math.abs(dot.x - dot.ox) > 0.1 || Math.abs(dot.y - dot.oy) > 0.1 || dot.highlight > 0.01) {
                     hasMovement = true;
@@ -800,8 +798,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Attenuate mouse velocity
-            mouse.vx *= 0.5;
-            mouse.vy *= 0.5;
+            mouse.vx *= Math.pow(0.5, dt);
+            mouse.vy *= Math.pow(0.5, dt);
 
             if (hasMovement || mouse.isHovering) {
                 animationFrameId = requestAnimationFrame(update);
@@ -813,6 +811,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function wakeUp() {
             if (!isRunning) {
                 isRunning = true;
+                lastDotTime = performance.now();
                 animationFrameId = requestAnimationFrame(update);
             }
         }
@@ -854,9 +853,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 x: clickX,
                 y: clickY,
                 radius: 0,
-                maxRadius: Math.max(width, height) * 0.8,
-                speed: 13,
-                thickness: 75,
+                maxRadius: Math.max(width, height) * 0.75,
+                speed: 8.5,
+                thickness: 80,
                 intensity: 1.0,
                 maxIntensity: 1.0
             });
