@@ -122,19 +122,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 const rect = letter.getBoundingClientRect();
                 const containerRect = physicsContainer.getBoundingClientRect();
 
-                // Space Grotesk uppercase letters have ~18% ascent whitespace at the top of the em-box.
-                // We offset down so the physics body's top surface aligns PRECISELY with the visible black ink of each letter.
-                // This eliminates the "invisible wall" floating above the name!
-                const capOffsetTop = rect.height * 0.18;
-                const capHeight = rect.height * 0.72;
-                const visualY = rect.top - containerRect.top + capOffsetTop + capHeight / 2;
+                // Position the collision body so its top surface sits precisely 4px above the letter top.
+                // This ensures tags rest cleanly on top of the letters without sinking into the ink.
+                const letterTop = rect.top - containerRect.top;
+                const letterHeight = rect.height;
                 const visualX = rect.left - containerRect.left + rect.width / 2;
+                const visualY = letterTop - 4 + letterHeight / 2;
 
-                const body = Bodies.rectangle(visualX, visualY, rect.width * 0.96, capHeight, {
+                const body = Bodies.rectangle(visualX, visualY, rect.width, letterHeight, {
                     ...boundaryOptions,
-                    restitution: 0.5,
-                    friction: 0.15,
-                    chamfer: { radius: 8 }
+                    restitution: 0.4,
+                    friction: 0.25
                 });
 
                 letterBodies.push(body);
