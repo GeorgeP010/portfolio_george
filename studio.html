@@ -41,27 +41,17 @@
 
         <!-- Studio Stage -->
         <div class="studio-stage" id="studioStage" role="button" tabindex="0" aria-label="Klik op George om kennis te maken">
-            <!-- Animated 3D Avatar Studio Media Layers (Supports MP4 Video + Fallback) -->
+            <!-- Direct Fluid 60fps MP4 Studio Videos -->
             <div class="studio-media-container" id="studioMediaContainer">
-                <!-- 1. Real MP4 Video Layers (Used automatically when MP4s are added) -->
-                <video id="videoWorking" class="studio-media studio-video-layer" autoplay loop muted playsinline poster="george_work_1.jpg">
+                <!-- 1. Real MP4 Video: Coding at desk -->
+                <video id="videoWorking" class="studio-media active" autoplay loop muted playsinline preload="auto">
                     <source src="george_working.mp4" type="video/mp4">
                 </video>
-                <video id="videoTurnFront" class="studio-media studio-video-layer" muted playsinline poster="george_turn_mid.jpg">
-                    <source src="george_turn.mp4" type="video/mp4">
-                </video>
-                <video id="videoWaving" class="studio-media studio-video-layer" loop muted playsinline poster="george_wave_1.jpg">
+
+                <!-- 2. Real MP4 Video: Front smiling & waving -->
+                <video id="videoWaving" class="studio-media" loop muted playsinline preload="auto">
                     <source src="george_waving.mp4" type="video/mp4">
                 </video>
-                <video id="videoTurnBack" class="studio-media studio-video-layer" muted playsinline poster="george_turn_mid.jpg">
-                    <source src="george_turn_back.mp4" type="video/mp4">
-                </video>
-
-                <!-- 2. WebP Motion Layers (Active by default until MP4s are placed in project) -->
-                <img src="george_working_loop.webp" alt="George aan het werk in zijn 3D studio" class="studio-media studio-webp-layer active" id="mediaWorking">
-                <img src="george_turn_to_front.webp" alt="George draait zijn stoel om" class="studio-media studio-webp-layer" id="mediaTurnFront">
-                <img src="george_waving_loop.webp" alt="George glimlacht en zwaait naar je" class="studio-media studio-webp-layer" id="mediaWaving">
-                <img src="george_turn_to_back.webp" alt="George draait zich terug naar het bureau" class="studio-media studio-webp-layer" id="mediaTurnBack">
             </div>
 
             <!-- Rotating Text Badge (Mild Sugar Style) -->

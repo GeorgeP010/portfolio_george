@@ -1,7 +1,7 @@
 /**
  * George Pelealuw — 3D Video Avatar Studio Experience
  * Inspired by Mild Sugar Design (mildsugardesign.jp)
- * Supports real MP4 video playback with seamless WebP motion fallback.
+ * Direct, instant 60fps MP4 video transitions without any still image flashes.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,74 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Real MP4 Video Elements
     const videoWorking = document.getElementById('videoWorking');
-    const videoTurnFront = document.getElementById('videoTurnFront');
     const videoWaving = document.getElementById('videoWaving');
-    const videoTurnBack = document.getElementById('videoTurnBack');
-
-    // WebP Motion Fallback Elements
-    const mediaWorking = document.getElementById('mediaWorking');
-    const mediaTurnFront = document.getElementById('mediaTurnFront');
-    const mediaWaving = document.getElementById('mediaWaving');
-    const mediaTurnBack = document.getElementById('mediaTurnBack');
 
     let isFrontActive = false;
-    let isTransitioning = false;
-    let transitionTimer = null;
     let audioCtx = null;
 
-    let hasWorkingVideo = false;
-    let hasWavingVideo = false;
-    let hasTurnVideo = false;
-
-    // Helper to activate a single media layer
-    function setMediaActive(targetMedia) {
-        const allMedia = [
-            videoWorking, videoTurnFront, videoWaving, videoTurnBack,
-            mediaWorking, mediaTurnFront, mediaWaving, mediaTurnBack
-        ];
-        allMedia.forEach(el => {
-            if (el) {
-                if (el === targetMedia) {
-                    el.classList.add('active');
-                } else {
-                    el.classList.remove('active');
-                }
-            }
-        });
-    }
-
-    // Detect available MP4 videos
+    // Ensure both videos are primed and preloaded
     if (videoWorking) {
-        videoWorking.addEventListener('canplay', () => {
-            hasWorkingVideo = true;
-            if (!isFrontActive && !isTransitioning) {
-                setMediaActive(videoWorking);
-                videoWorking.play().catch(() => {});
-            }
-        });
-        // Try initial play
-        videoWorking.play().then(() => {
-            hasWorkingVideo = true;
-            if (!isFrontActive && !isTransitioning) {
-                setMediaActive(videoWorking);
+        videoWorking.play().catch(() => {});
+    }
+    if (videoWaving) {
+        // Warm up waving video so it can play instantly on click
+        videoWaving.play().then(() => {
+            if (!isFrontActive) {
+                // Keep playing or ready in background
             }
         }).catch(() => {});
-    }
-
-    if (videoWaving) {
-        videoWaving.addEventListener('canplay', () => {
-            hasWavingVideo = true;
-            if (isFrontActive && !isTransitioning) {
-                setMediaActive(videoWaving);
-                videoWaving.play().catch(() => {});
-            }
-        });
-    }
-
-    if (videoTurnFront) {
-        videoTurnFront.addEventListener('canplay', () => {
-            hasTurnVideo = true;
-        });
     }
 
     // -------------------------------------------------------------------------
@@ -140,15 +88,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
-    // 2. State Toggle: Working -> Swivel Turn -> Waving Greeting
+    // 2. Direct Instant Video Transition (Working <-> Waving)
     // -------------------------------------------------------------------------
     function showFrontState() {
-        if (isFrontActive || isTransitioning) return;
+        if (isFrontActive) return;
         isFrontActive = true;
-        isTransitioning = true;
-        clearTimeout(transitionTimer);
 
         playChime('open');
+
+        // Immediately start and show waving video
+        if (videoWaving) {
+            videoWaving.play().catch(() => {});
+            videoWaving.classList.add('active');
+        }
+        if (videoWorking) {
+            videoWorking.classList.remove('active');
+        }
 
         // Studio stage & viewport state
         studioStage.classList.add('front-active');
@@ -159,68 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stalkerText) {
             stalkerText.textContent = 'Sluit ✕';
         }
-
-        if (hasTurnVideo && videoTurnFront) {
-            // Play MP4 turn video
-            setMediaActive(videoTurnFront);
-            videoTurnFront.currentTime = 0;
-            videoTurnFront.play().catch(() => {});
-
-            videoTurnFront.onended = () => {
-                if (isFrontActive) {
-                    if (hasWavingVideo && videoWaving) {
-                        setMediaActive(videoWaving);
-                        videoWaving.currentTime = 0;
-                        videoWaving.play().catch(() => {});
-                    } else {
-                        setMediaActive(mediaWaving);
-                    }
-                }
-                isTransitioning = false;
-            };
-
-            transitionTimer = setTimeout(() => {
-                if (isFrontActive && isTransitioning) {
-                    if (hasWavingVideo && videoWaving) {
-                        setMediaActive(videoWaving);
-                        videoWaving.play().catch(() => {});
-                    } else {
-                        setMediaActive(mediaWaving);
-                    }
-                    isTransitioning = false;
-                }
-            }, 800);
-        } else {
-            // Play WebP turn animation
-            if (mediaTurnFront) {
-                const rawSrc = mediaTurnFront.getAttribute('src').split('?')[0];
-                mediaTurnFront.src = rawSrc + '?t=' + Date.now();
-                setMediaActive(mediaTurnFront);
-            }
-
-            // After turn finishes (~550ms), seamlessly show waving video or loop
-            transitionTimer = setTimeout(() => {
-                if (isFrontActive) {
-                    if (hasWavingVideo && videoWaving) {
-                        setMediaActive(videoWaving);
-                        videoWaving.currentTime = 0;
-                        videoWaving.play().catch(() => {});
-                    } else {
-                        setMediaActive(mediaWaving);
-                    }
-                }
-                isTransitioning = false;
-            }, 550);
-        }
     }
 
     function showBackState() {
-        if (!isFrontActive || isTransitioning) return;
+        if (!isFrontActive) return;
         isFrontActive = false;
-        isTransitioning = true;
-        clearTimeout(transitionTimer);
 
         playChime('close');
+
+        // Immediately switch back to working video
+        if (videoWorking) {
+            videoWorking.play().catch(() => {});
+            videoWorking.classList.add('active');
+        }
+        if (videoWaving) {
+            videoWaving.classList.remove('active');
+        }
 
         // Close drawer and restore stage framing
         studioStage.classList.remove('front-active');
@@ -230,59 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (stalkerText) {
             stalkerText.textContent = 'Hey! 🤝';
-        }
-
-        if (hasTurnVideo && videoTurnBack) {
-            // Play MP4 turn back video
-            setMediaActive(videoTurnBack);
-            videoTurnBack.currentTime = 0;
-            videoTurnBack.play().catch(() => {});
-
-            videoTurnBack.onended = () => {
-                if (!isFrontActive) {
-                    if (hasWorkingVideo && videoWorking) {
-                        setMediaActive(videoWorking);
-                        videoWorking.currentTime = 0;
-                        videoWorking.play().catch(() => {});
-                    } else {
-                        setMediaActive(mediaWorking);
-                    }
-                }
-                isTransitioning = false;
-            };
-
-            transitionTimer = setTimeout(() => {
-                if (!isFrontActive && isTransitioning) {
-                    if (hasWorkingVideo && videoWorking) {
-                        setMediaActive(videoWorking);
-                        videoWorking.play().catch(() => {});
-                    } else {
-                        setMediaActive(mediaWorking);
-                    }
-                    isTransitioning = false;
-                }
-            }, 800);
-        } else {
-            // Play WebP turn back animation
-            if (mediaTurnBack) {
-                const rawSrc = mediaTurnBack.getAttribute('src').split('?')[0];
-                mediaTurnBack.src = rawSrc + '?t=' + Date.now();
-                setMediaActive(mediaTurnBack);
-            }
-
-            // After turn back finishes (~550ms), seamlessly resume coding video or loop
-            transitionTimer = setTimeout(() => {
-                if (!isFrontActive) {
-                    if (hasWorkingVideo && videoWorking) {
-                        setMediaActive(videoWorking);
-                        videoWorking.currentTime = 0;
-                        videoWorking.play().catch(() => {});
-                    } else {
-                        setMediaActive(mediaWorking);
-                    }
-                }
-                isTransitioning = false;
-            }, 550);
         }
     }
 

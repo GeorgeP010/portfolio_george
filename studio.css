@@ -230,15 +230,14 @@ html, body {
     object-position: center bottom;
     display: block;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: opacity;
     z-index: 1;
+    pointer-events: none;
 }
 
 .studio-media.active {
     opacity: 1;
-    visibility: visible;
     z-index: 2;
 }
 
