@@ -25,7 +25,53 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 500);
     });
 
+    // ========== LENIS SMOOTH SCROLL (Dennis Snellenberg Style) ==========
+    let lenis = null;
+    function initLenis() {
+        if (typeof Lenis === 'undefined') return;
 
+        lenis = new Lenis({
+            duration: 1.25,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Dennis Snellenberg exponential curve
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.5,
+            infinite: false
+        });
+
+        window.lenis = lenis;
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Smooth scroll for anchor links & scroll indicator
+        document.querySelectorAll('a[href^="#"], .scroll-indicator').forEach(el => {
+            el.addEventListener('click', (e) => {
+                let targetId = el.getAttribute('href');
+                if (el.classList.contains('scroll-indicator') || !targetId) {
+                    targetId = '#work';
+                }
+                if (targetId && targetId !== '#') {
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        e.preventDefault();
+                        lenis.scrollTo(targetEl, { offset: -60, duration: 1.4 });
+                    }
+                }
+            });
+        });
+    }
+
+    if (typeof Lenis !== 'undefined') {
+        initLenis();
+    } else {
+        window.addEventListener('load', initLenis);
+    }
 
     // ========== PHYSICS TAGS EFFECT ==========
     const physicsContainer = document.getElementById('physicsContainer');
@@ -290,7 +336,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // Work cards staggered reveal
+        // Dennis Snellenberg 120fps sync with Lenis
+        if (window.lenis) {
+            window.lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+                window.lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        // Work cards staggered reveal & subtle Dennis Snellenberg image parallax
         const workCards = document.querySelectorAll('.work-card');
         workCards.forEach((card, index) => {
             gsap.fromTo(card,
@@ -314,6 +369,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     delay: (index % 2) * 0.15 // Stagger within rows
                 }
             );
+
+            // Subtle Dennis Snellenberg scrubbed image parallax
+            const img = card.querySelector('.work-card-image img');
+            if (img) {
+                gsap.fromTo(img,
+                    { yPercent: -8 },
+                    {
+                        yPercent: 8,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: true
+                        }
+                    }
+                );
+            }
         });
 
         // Section titles slide in
@@ -444,34 +517,48 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     waitForGSAP();
 
-    // ========== PARALLAX SCROLL EFFECT ==========
+    // ========== PARALLAX SCROLL EFFECT & PROGRESS ==========
     const heroContainer = document.querySelector('.hero-container');
-    let ticking = false;
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(progressBar);
 
-    function updateParallax() {
-        const scrolled = window.pageYOffset;
-
-        if (heroContainer && scrolled < window.innerHeight) {
-            const rate = scrolled * 0.4;
+    function handleScrollUpdate(scrollY, maxScroll) {
+        if (heroContainer && scrollY < window.innerHeight) {
+            const rate = scrollY * 0.4;
             heroContainer.style.transform = `translateY(${rate}px)`;
-            heroContainer.style.opacity = 1 - (scrolled / window.innerHeight) * 0.9;
+            heroContainer.style.opacity = Math.max(0, 1 - (scrollY / window.innerHeight) * 0.9);
         }
 
-        // Hide scroll indicator
-        const scrollIndicator = document.querySelector('.scroll-indicator');
         if (scrollIndicator) {
-            scrollIndicator.style.opacity = Math.max(0, 1 - scrolled / 200);
+            scrollIndicator.style.opacity = Math.max(0, 1 - scrollY / 200);
         }
 
-        ticking = false;
+        if (progressBar && maxScroll > 0) {
+            const scrolled = (scrollY / maxScroll) * 100;
+            progressBar.style.width = scrolled + '%';
+        }
     }
 
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }, { passive: true });
+    if (window.lenis) {
+        window.lenis.on('scroll', ({ scroll, limit }) => {
+            handleScrollUpdate(scroll, limit);
+        });
+    } else {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    handleScrollUpdate(window.pageYOffset, maxScroll);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    }
 
     // ========== WORK CARDS ENHANCED HOVER ==========
     document.querySelectorAll('.work-card').forEach(card => {
@@ -502,8 +589,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ========== MAGNETIC EFFECT ON BUTTONS ==========
-    const magneticElements = document.querySelectorAll('.email-link, .social-links a');
+    // ========== MAGNETIC EFFECT ON BUTTONS (Dennis Snellenberg Signature) ==========
+    const magneticElements = document.querySelectorAll(
+        '.header-projects-pill, .theme-toggle-minimal, .email-link, .social-links a, .view-badge, .scroll-indicator'
+    );
 
     magneticElements.forEach(el => {
         el.addEventListener('mousemove', (e) => {
@@ -511,32 +600,31 @@ document.addEventListener('DOMContentLoaded', function () {
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
 
-            el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            if (typeof gsap !== 'undefined') {
+                gsap.to(el, {
+                    x: x * 0.35,
+                    y: y * 0.35,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            } else {
+                el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            }
         });
 
         el.addEventListener('mouseleave', () => {
-            el.style.transform = 'translate(0, 0)';
+            if (typeof gsap !== 'undefined') {
+                gsap.to(el, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.7,
+                    ease: 'elastic.out(1, 0.4)'
+                });
+            } else {
+                el.style.transform = 'translate(0, 0)';
+            }
         });
     });
-
-    // ========== SCROLL PROGRESS BAR ==========
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    progressBar.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(progressBar);
-
-    let progressTicking = false;
-    window.addEventListener('scroll', () => {
-        if (!progressTicking) {
-            window.requestAnimationFrame(() => {
-                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (window.pageYOffset / windowHeight) * 100;
-                progressBar.style.width = scrolled + '%';
-                progressTicking = false;
-            });
-            progressTicking = true;
-        }
-    }, { passive: true });
 
 
 

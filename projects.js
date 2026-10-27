@@ -24,6 +24,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========== LENIS SMOOTH SCROLL (Dennis Snellenberg Style) ==========
+    let lenis = null;
+    function initLenis() {
+        if (typeof Lenis === 'undefined') return;
+
+        lenis = new Lenis({
+            duration: 1.25,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Dennis Snellenberg exponential curve
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.5,
+            infinite: false
+        });
+
+        window.lenis = lenis;
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    }
+
+    if (typeof Lenis !== 'undefined') {
+        initLenis();
+    } else {
+        window.addEventListener('load', initLenis);
+    }
+
     // ========== ELEMENTS ==========
     const filterButtons = document.querySelectorAll('.filter-btn');
     const searchInput = document.getElementById('projectSearch');
@@ -97,6 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (gridView) gridView.style.display = 'grid';
                 if (listView) listView.style.display = 'none';
             }
+        }
+
+        if (window.lenis) {
+            setTimeout(() => window.lenis.resize(), 100);
         }
     }
 
@@ -244,5 +279,38 @@ document.addEventListener('DOMContentLoaded', () => {
             delay: 0.15
         });
     }
+
+    // ========== MAGNETIC BUTTONS (Dennis Snellenberg Signature) ==========
+    const magneticElements = document.querySelectorAll(
+        '.back-home-link, .filter-btn, .view-btn, #themeToggle, .header-status-pill'
+    );
+
+    magneticElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            if (typeof gsap !== 'undefined') {
+                gsap.to(el, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
+        });
+
+        el.addEventListener('mouseleave', () => {
+            if (typeof gsap !== 'undefined') {
+                gsap.to(el, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.7,
+                    ease: 'elastic.out(1, 0.4)'
+                });
+            }
+        });
+    });
 
 });
