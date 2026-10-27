@@ -31,20 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let isTransitioning = false;
     let transitionTimer = null;
     let audioCtx = null;
-    let hasVideoSupport = false;
 
-    // Detect if real MP4 video is present and working
-    if (videoWorking) {
-        videoWorking.addEventListener('canplay', () => {
-            hasVideoSupport = true;
-            document.querySelectorAll('.studio-webp-layer').forEach(el => el.style.display = 'none');
-            videoWorking.classList.add('active');
-            videoWorking.play().catch(() => {});
-        });
-        videoWorking.addEventListener('error', () => {
-            hasVideoSupport = false;
-        });
-    }
+    let hasWorkingVideo = false;
+    let hasWavingVideo = false;
+    let hasTurnVideo = false;
 
     // Helper to activate a single media layer
     function setMediaActive(targetMedia) {
@@ -60,6 +50,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     el.classList.remove('active');
                 }
             }
+        });
+    }
+
+    // Detect available MP4 videos
+    if (videoWorking) {
+        videoWorking.addEventListener('canplay', () => {
+            hasWorkingVideo = true;
+            if (!isFrontActive && !isTransitioning) {
+                setMediaActive(videoWorking);
+                videoWorking.play().catch(() => {});
+            }
+        });
+        // Try initial play
+        videoWorking.play().then(() => {
+            hasWorkingVideo = true;
+            if (!isFrontActive && !isTransitioning) {
+                setMediaActive(videoWorking);
+            }
+        }).catch(() => {});
+    }
+
+    if (videoWaving) {
+        videoWaving.addEventListener('canplay', () => {
+            hasWavingVideo = true;
+            if (isFrontActive && !isTransitioning) {
+                setMediaActive(videoWaving);
+                videoWaving.play().catch(() => {});
+            }
+        });
+    }
+
+    if (videoTurnFront) {
+        videoTurnFront.addEventListener('canplay', () => {
+            hasTurnVideo = true;
         });
     }
 
@@ -136,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stalkerText.textContent = 'Sluit ✕';
         }
 
-        if (hasVideoSupport && videoTurnFront && videoWaving) {
+        if (hasTurnVideo && videoTurnFront) {
             // Play MP4 turn video
             setMediaActive(videoTurnFront);
             videoTurnFront.currentTime = 0;
@@ -144,18 +168,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             videoTurnFront.onended = () => {
                 if (isFrontActive) {
-                    setMediaActive(videoWaving);
-                    videoWaving.currentTime = 0;
-                    videoWaving.play().catch(() => {});
+                    if (hasWavingVideo && videoWaving) {
+                        setMediaActive(videoWaving);
+                        videoWaving.currentTime = 0;
+                        videoWaving.play().catch(() => {});
+                    } else {
+                        setMediaActive(mediaWaving);
+                    }
                 }
                 isTransitioning = false;
             };
 
-            // Fallback timer if video ended event does not fire
             transitionTimer = setTimeout(() => {
                 if (isFrontActive && isTransitioning) {
-                    setMediaActive(videoWaving);
-                    videoWaving.play().catch(() => {});
+                    if (hasWavingVideo && videoWaving) {
+                        setMediaActive(videoWaving);
+                        videoWaving.play().catch(() => {});
+                    } else {
+                        setMediaActive(mediaWaving);
+                    }
                     isTransitioning = false;
                 }
             }, 800);
@@ -167,10 +198,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 setMediaActive(mediaTurnFront);
             }
 
-            // After turn finishes (~550ms), seamlessly show waving loop
+            // After turn finishes (~550ms), seamlessly show waving video or loop
             transitionTimer = setTimeout(() => {
                 if (isFrontActive) {
-                    setMediaActive(mediaWaving);
+                    if (hasWavingVideo && videoWaving) {
+                        setMediaActive(videoWaving);
+                        videoWaving.currentTime = 0;
+                        videoWaving.play().catch(() => {});
+                    } else {
+                        setMediaActive(mediaWaving);
+                    }
                 }
                 isTransitioning = false;
             }, 550);
@@ -195,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stalkerText.textContent = 'Hey! 🤝';
         }
 
-        if (hasVideoSupport && videoTurnBack && videoWorking) {
+        if (hasTurnVideo && videoTurnBack) {
             // Play MP4 turn back video
             setMediaActive(videoTurnBack);
             videoTurnBack.currentTime = 0;
@@ -203,16 +240,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             videoTurnBack.onended = () => {
                 if (!isFrontActive) {
-                    setMediaActive(videoWorking);
-                    videoWorking.play().catch(() => {});
+                    if (hasWorkingVideo && videoWorking) {
+                        setMediaActive(videoWorking);
+                        videoWorking.currentTime = 0;
+                        videoWorking.play().catch(() => {});
+                    } else {
+                        setMediaActive(mediaWorking);
+                    }
                 }
                 isTransitioning = false;
             };
 
             transitionTimer = setTimeout(() => {
                 if (!isFrontActive && isTransitioning) {
-                    setMediaActive(videoWorking);
-                    videoWorking.play().catch(() => {});
+                    if (hasWorkingVideo && videoWorking) {
+                        setMediaActive(videoWorking);
+                        videoWorking.play().catch(() => {});
+                    } else {
+                        setMediaActive(mediaWorking);
+                    }
                     isTransitioning = false;
                 }
             }, 800);
@@ -224,10 +270,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 setMediaActive(mediaTurnBack);
             }
 
-            // After turn back finishes (~550ms), seamlessly resume coding loop
+            // After turn back finishes (~550ms), seamlessly resume coding video or loop
             transitionTimer = setTimeout(() => {
                 if (!isFrontActive) {
-                    setMediaActive(mediaWorking);
+                    if (hasWorkingVideo && videoWorking) {
+                        setMediaActive(videoWorking);
+                        videoWorking.currentTime = 0;
+                        videoWorking.play().catch(() => {});
+                    } else {
+                        setMediaActive(mediaWorking);
+                    }
                 }
                 isTransitioning = false;
             }, 550);
