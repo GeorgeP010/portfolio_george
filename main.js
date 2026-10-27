@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const { Engine, Render, World, Bodies, Runner, Mouse, MouseConstraint, Body } = Matter;
+            const { Engine, World, Bodies, Runner, Body } = Matter;
 
             const containerRect = physicsContainer.getBoundingClientRect();
             const width = containerRect.width;
@@ -118,23 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const engine = Engine.create();
             engine.world.gravity.y = 0.3;
-
-            const render = Render.create({
-                element: physicsContainer,
-                engine: engine,
-                options: {
-                    width: width,
-                    height: height,
-                    background: 'transparent',
-                    wireframes: false
-                }
-            });
-
-            render.canvas.style.position = 'absolute';
-            render.canvas.style.top = '0';
-            render.canvas.style.left = '0';
-            render.canvas.style.pointerEvents = 'none';
-            render.canvas.style.opacity = '0';
 
             const boundaryOptions = {
                 isStatic: true,
@@ -240,16 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return { elem: tagElement, body: body };
             });
 
-            // Create mouse constraint
-            const mouse = Mouse.create(render.canvas);
-            const mouseConstraint = MouseConstraint.create(engine, {
-                mouse: mouse,
-                constraint: {
-                    stiffness: 0.2,
-                    render: { visible: false }
-                }
-            });
-
             // Allow dragging through tag elements
             tagBodies.forEach(({ elem, body }) => {
                 let isDragging = false;
@@ -287,13 +260,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 rightWall,
                 ceiling,
                 ...letterBodies,
-                mouseConstraint,
                 ...tagBodies.map(tb => tb.body)
             ]);
 
             const runner = Runner.create();
             Runner.run(runner, engine);
-            Render.run(render);
 
             // Pause physics during scroll for better performance
             let scrollTimeout;
@@ -336,13 +307,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // Dennis Snellenberg 120fps sync with Lenis
+        // Sync Lenis with ScrollTrigger
         if (window.lenis) {
             window.lenis.on('scroll', ScrollTrigger.update);
-            gsap.ticker.add((time) => {
-                window.lenis.raf(time * 1000);
-            });
-            gsap.ticker.lagSmoothing(0);
         }
 
         // Work cards staggered reveal & subtle Dennis Snellenberg image parallax
@@ -525,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleScrollUpdate(scrollY) {
         if (heroContainer && scrollY < window.innerHeight) {
             const rate = scrollY * 0.4;
-            heroContainer.style.transform = `translateY(${rate}px)`;
+            heroContainer.style.transform = `translate3d(0, ${rate}px, 0)`;
             heroContainer.style.opacity = Math.max(0, 1 - (scrollY / window.innerHeight) * 0.9);
         }
 

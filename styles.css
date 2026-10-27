@@ -123,29 +123,16 @@ body {
 /* ========== GRAIN OVERLAY ========== */
 .grain-overlay {
     position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
     pointer-events: none;
     opacity: var(--grain-opacity);
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-repeat: repeat;
-    animation: grain 0.5s steps(1) infinite;
-}
-
-@keyframes grain {
-    0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-5%, -10%); }
-    20% { transform: translate(-15%, 5%); }
-    30% { transform: translate(7%, -25%); }
-    40% { transform: translate(-5%, 25%); }
-    50% { transform: translate(-15%, 10%); }
-    60% { transform: translate(15%, 0%); }
-    70% { transform: translate(0%, 15%); }
-    80% { transform: translate(3%, 35%); }
-    90% { transform: translate(-10%, 10%); }
+    transform: translateZ(0);
 }
 
 /* ========== MINIMAL HEADER ========== */
@@ -161,6 +148,10 @@ body {
     z-index: 1000;
     background: transparent;
     pointer-events: none;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     transition: background 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
 }
 
@@ -303,9 +294,10 @@ body {
     position: relative;
     z-index: 1;
     overflow: hidden;
+    transform: translateZ(0);
 }
 
-/* Gradient Mesh Background */
+/* Gradient Mesh Background - Static Ambient Glow (Flicker-Free) */
 .hero::before {
     content: '';
     position: absolute;
@@ -314,43 +306,13 @@ body {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(ellipse 80% 60% at 20% 30%, var(--gradient-mesh-1) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 80% at 80% 20%, var(--gradient-mesh-2) 0%, transparent 70%),
-        radial-gradient(ellipse 70% 50% at 50% 80%, var(--gradient-mesh-3) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 10% 70%, var(--gradient-mesh-4) 0%, transparent 70%);
-    animation: meshMove 12s ease-in-out infinite alternate;
+        radial-gradient(circle 700px at 50% 15%, var(--gradient-mesh-1) 0%, transparent 70%),
+        radial-gradient(circle 600px at 85% 25%, var(--gradient-mesh-2) 0%, transparent 65%),
+        radial-gradient(circle 600px at 15% 30%, var(--gradient-mesh-3) 0%, transparent 65%),
+        radial-gradient(circle 500px at 50% 85%, var(--gradient-mesh-4) 0%, transparent 70%);
+    pointer-events: none;
     z-index: 0;
-}
-
-@keyframes meshMove {
-    0% {
-        background:
-            radial-gradient(ellipse 80% 60% at 20% 30%, var(--gradient-mesh-1) 0%, transparent 70%),
-            radial-gradient(ellipse 60% 80% at 80% 20%, var(--gradient-mesh-2) 0%, transparent 70%),
-            radial-gradient(ellipse 70% 50% at 50% 80%, var(--gradient-mesh-3) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 60% at 10% 70%, var(--gradient-mesh-4) 0%, transparent 70%);
-    }
-    33% {
-        background:
-            radial-gradient(ellipse 70% 70% at 60% 20%, var(--gradient-mesh-2) 0%, transparent 70%),
-            radial-gradient(ellipse 80% 50% at 30% 60%, var(--gradient-mesh-1) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 80% at 80% 70%, var(--gradient-mesh-4) 0%, transparent 70%),
-            radial-gradient(ellipse 60% 60% at 20% 80%, var(--gradient-mesh-3) 0%, transparent 70%);
-    }
-    66% {
-        background:
-            radial-gradient(ellipse 60% 80% at 40% 50%, var(--gradient-mesh-3) 0%, transparent 70%),
-            radial-gradient(ellipse 70% 60% at 70% 40%, var(--gradient-mesh-4) 0%, transparent 70%),
-            radial-gradient(ellipse 80% 50% at 20% 20%, var(--gradient-mesh-1) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 70% at 80% 80%, var(--gradient-mesh-2) 0%, transparent 70%);
-    }
-    100% {
-        background:
-            radial-gradient(ellipse 80% 60% at 70% 60%, var(--gradient-mesh-4) 0%, transparent 70%),
-            radial-gradient(ellipse 60% 80% at 20% 40%, var(--gradient-mesh-3) 0%, transparent 70%),
-            radial-gradient(ellipse 70% 50% at 50% 20%, var(--gradient-mesh-2) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 60% at 80% 80%, var(--gradient-mesh-1) 0%, transparent 70%);
-    }
+    transform: translateZ(0);
 }
 
 .hero-container {
@@ -365,6 +327,7 @@ body {
     align-items: center;
     padding: 0 20px;
     z-index: 2;
+    transform: translateZ(0);
 }
 
 .hero-title {
