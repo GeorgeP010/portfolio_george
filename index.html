@@ -67,6 +67,10 @@
 </head>
 
 <body>
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-to-main">Spring naar hoofdinhoud</a>
 
@@ -91,6 +95,10 @@
         </div>
 
         <div class="header-right">
+            <a href="projects.html" class="header-projects-pill" aria-label="Bekijk alle projecten">
+                <span>PROJECTEN</span>
+                <span class="pill-count">11</span>
+            </a>
             <button class="theme-toggle-minimal" id="themeToggle" aria-label="Toggle dark mode">
                 <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" />
@@ -114,7 +122,16 @@
                 <!-- Physics Tags Container -->
                 <div id="physicsContainer" class="physics-container" aria-hidden="true"></div>
 
-                <h1 class="hero-title">GEORGE PELEALUW</h1>
+                <h1 class="hero-title" aria-label="George Pelealuw">
+                    <div class="hero-title-row">GEORGE</div>
+                    <div class="hero-title-row">PELEALUW</div>
+                </h1>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator" aria-hidden="true">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
             </div>
         </section>
 
@@ -150,17 +167,72 @@
             </div>
         </section>
 
+        <!-- Skills Marquee -->
+        <section class="marquee-section" aria-label="Skills">
+            <div class="marquee-track">
+                <div class="marquee-item">HTML</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">CSS</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">JavaScript</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">React</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">PHP</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">MySQL</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Figma</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">UI/UX Design</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Creative Coding</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Software Testing</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Git</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Responsive Design</div>
+                <div class="marquee-separator"></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="marquee-item">HTML</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">CSS</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">JavaScript</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">React</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">PHP</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">MySQL</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Figma</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">UI/UX Design</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Creative Coding</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Software Testing</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Git</div>
+                <div class="marquee-separator"></div>
+                <div class="marquee-item">Responsive Design</div>
+                <div class="marquee-separator"></div>
+            </div>
+        </section>
+
         <!-- Selected Works Section -->
         <section id="work" class="work-section" aria-labelledby="work-heading">
             <div class="container">
                 <div class="section-header">
                     <h2 id="work-heading">Geselecteerde Projecten</h2>
-                    <span class="year-range">2023 - 2025</span>
+                    <span class="year-range">2023 — 2026</span>
                 </div>
 
-                <!-- Image Grid Layout - NOW WITH LINKS TO PROJECT PAGES -->
+                <!-- Grid Layout -->
                 <div class="work-grid">
-                    <article class="work-card">
+                    <article class="work-card" data-accent="vault">
                         <a href="projects/the-vault.html" class="work-card-link">
                             <div class="work-card-image">
                                 <img src="the-vault.png" alt="The Vault - Exclusief e-commerce platform voor luxeproducten"
@@ -176,7 +248,7 @@
                         </a>
                     </article>
 
-                    <article class="work-card">
+                    <article class="work-card" data-accent="dapur">
                         <a href="projects/dapur-ibu.html" class="work-card-link">
                             <div class="work-card-image">
                                 <img src="dapur ibu.png"
@@ -193,23 +265,7 @@
                         </a>
                     </article>
 
-                    <article class="work-card">
-                        <a href="projects/duo-project.html" class="work-card-link">
-                            <div class="work-card-image">
-                                <img src="duo.png" alt="Interactive Duo Project - Dynamic web application"
-                                    loading="lazy">
-                                <div class="work-card-overlay">
-                                    <span class="view-badge">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="work-card-info">
-                                <h3>Interactive Duo Project</h3>
-                                <p>Interactive <span>•</span> 2024</p>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="work-card">
+                    <article class="work-card" data-accent="edufit">
                         <a href="projects/edufit.html" class="work-card-link">
                             <div class="work-card-image">
                                 <img src="projects/edufit.png"
@@ -225,23 +281,7 @@
                         </a>
                     </article>
 
-                    <article class="work-card">
-                        <a href="projects/yume-ramen.html" class="work-card-link">
-                            <div class="work-card-image">
-                                <img src="projects/yume ramen.png"
-                                    alt="Yume Ramen - Premium Japanese restaurant website" loading="lazy">
-                                <div class="work-card-overlay">
-                                    <span class="view-badge">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="work-card-info">
-                                <h3>Yume Ramen</h3>
-                                <p>App Design & Development <span>•</span> 2025</p>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="work-card">
+                    <article class="work-card" data-accent="vibesync">
                         <a href="projects/vibesync.html" class="work-card-link">
                             <div class="work-card-image">
                                 <img src="projects/vibesync.png"
@@ -257,8 +297,6 @@
                         </a>
                     </article>
                 </div>
-
-
             </div>
         </section>
 
@@ -289,7 +327,7 @@
         <section class="experience-section" aria-labelledby="journey-heading">
             <div class="container">
                 <h2 id="journey-heading" class="section-title">Reis</h2>
-                <div class="timeline-horizontal" role="list">
+                <div class="timeline-horizontal" id="timelineTrack" role="list">
                     <div class="timeline-item" role="listitem">
                         <div class="timeline-dot"></div>
                         <div class="timeline-year">2018</div>
@@ -314,7 +352,7 @@
                             <p>Software Developer</p>
                         </div>
                     </div>
-                    <div class="timeline-item active" role="listitem">
+                    <div class="timeline-item" role="listitem">
                         <div class="timeline-dot pulse"></div>
                         <div class="timeline-year">2026</div>
                         <div class="timeline-content">

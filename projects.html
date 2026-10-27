@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecten & Archief — George Pelealuw • Creative Developer</title>
+    <meta name="description"
+        content="Geselecteerde projecten en archief van George Pelealuw. Web development, UI/UX concepten en interactieve ervaringen.">
+    <meta name="author" content="George Pelealuw">
+    <link rel="icon" href="foto.jpg" type="image/jpeg">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="projects.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="projects-body">
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header class="projects-header" role="banner">
+        <a href="index.html" class="back-home-link" aria-label="Terug naar Home">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>George Pelealuw</span>
+        </a>
+
+        <div class="projects-header-actions">
+            <div class="header-status-pill">
+                <span class="status-dot"></span>
+                <span>BESCHIKBAAR VOOR STAGE</span>
+            </div>
+
+            <button class="theme-toggle-minimal" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M10 2V4M10 16V18M18 10H16M4 10H2M15.5 4.5L14 6M6 14L4.5 15.5M15.5 15.5L14 14M6 6L4.5 4.5"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                        d="M17 10.5C16.5 14.5 13 17.5 9 17.5C5 17.5 2 14.5 2 10.5C2 6.5 5 3.5 9 3.5C9.5 3.5 10 3.5 10.5 3.5C9.5 4.5 9 6 9 7.5C9 10.5 11 12.5 14 12.5C15.5 12.5 16.5 12 17.5 11C17.5 11 17 10.5 17 10.5Z"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Minimal High-Impact Creative Hero -->
+        <section class="projects-hero">
+            <div class="projects-hero-inner">
+                <div class="hero-top-meta">
+                    <span class="hero-tag-pill">ARCHIEF • 2023 — 2026</span>
+                    <span class="hero-count-pill">11 WERKEN</span>
+                </div>
+                <h1 class="projects-hero-title">PROJECTEN</h1>
+            </div>
+        </section>
+
+        <!-- Sticky Controls Bar (Filters, Search & View Switcher) -->
+        <div class="projects-controls">
+            <div class="projects-controls-inner">
+                <!-- Category Filters -->
+                <div class="filter-group" role="tablist" aria-label="Filter projecten">
+                    <button class="filter-btn active" data-filter="all">
+                        <span>Alle</span>
+                        <span class="count-badge">11</span>
+                    </button>
+                    <button class="filter-btn" data-filter="web-dev">
+                        <span>Web Development</span>
+                        <span class="count-badge">6</span>
+                    </button>
+                    <button class="filter-btn" data-filter="ui-ux">
+                        <span>UI/UX & Design</span>
+                        <span class="count-badge">2</span>
+                    </button>
+                    <button class="filter-btn" data-filter="interactive">
+                        <span>Interactief & Concept</span>
+                        <span class="count-badge">3</span>
+                    </button>
+                </div>
+
+                <!-- Right tools: Search + View Switcher -->
+                <div class="controls-right">
+                    <div class="search-box">
+                        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="projectSearch" class="search-input" placeholder="Zoek op tech of titel..." aria-label="Zoek projecten">
+                    </div>
+
+                    <div class="view-switcher" role="group" aria-label="Weergave opties">
+                        <button class="view-btn active" data-view="grid" aria-label="Grid weergave" title="Grid Weergave">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            <span>Grid</span>
+                        </button>
+                        <button class="view-btn" data-view="list" aria-label="Lijst weergave met hover preview" title="Lijst + Hover Preview">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                            <span>Lijst</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Showcase Section -->
+        <section class="projects-container">
+            <!-- 1. CREATIVE VISUAL GRID VIEW -->
+            <div id="projectsGrid" class="projects-grid">
+
+                <!-- 01. The Vault -->
+                <article class="creative-project-card" data-category="web-dev" data-title="The Vault" data-tech="HTML5 CSS3 JavaScript Luxury Watch E-Commerce Vercel">
+                    <a href="projects/the-vault.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="the-vault.png" alt="The Vault" decoding="async">
+                            <span class="card-year-tag">2025</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">01</span>
+                                <h2 class="project-name">The Vault</h2>
+                            </div>
+                            <span class="project-tag">Web Development</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 02. Dapur Ibu -->
+                <article class="creative-project-card" data-category="web-dev" data-title="Dapur Ibu" data-tech="HTML5 CSS3 JavaScript PHP Restaurant Indisch">
+                    <a href="projects/dapur-ibu.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="dapur ibu.png" alt="Dapur Ibu" decoding="async">
+                            <span class="card-year-tag">2026</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">02</span>
+                                <h2 class="project-name">Dapur Ibu</h2>
+                            </div>
+                            <span class="project-tag">Web Development</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 03. Interactive Duo Project -->
+                <article class="creative-project-card" data-category="interactive" data-title="Interactive Duo Project" data-tech="JavaScript CSS3 HTML5 Vercel Quiz Education Duo">
+                    <a href="projects/duo-project.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="duo.png" alt="Interactive Duo Project" decoding="async">
+                            <span class="card-year-tag">2024</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">03</span>
+                                <h2 class="project-name">Interactive Duo Project</h2>
+                            </div>
+                            <span class="project-tag">Interactief & Quiz</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 04. EduFit -->
+                <article class="creative-project-card" data-category="web-dev" data-title="EduFit" data-tech="UI/UX Mobile App JavaScript CSS3 Health Fit">
+                    <a href="projects/edufit.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="edufit_screenshot.png" alt="EduFit" decoding="async">
+                            <span class="card-year-tag">2025</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">04</span>
+                                <h2 class="project-name">EduFit</h2>
+                            </div>
+                            <span class="project-tag">Web & Mobile App</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 05. Yume Ramen -->
+                <article class="creative-project-card" data-category="web-dev" data-title="Yume Ramen" data-tech="HTML5 CSS3 JavaScript E-Commerce Food Japanese">
+                    <a href="projects/yume-ramen.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="yume_ramen_screenshot.png" alt="Yume Ramen" decoding="async">
+                            <span class="card-year-tag">2025</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">05</span>
+                                <h2 class="project-name">Yume Ramen</h2>
+                            </div>
+                            <span class="project-tag">Web Development</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 06. VibeSync -->
+                <article class="creative-project-card" data-category="interactive" data-title="VibeSync" data-tech="UI/UX Figma Concept JavaScript Vercel Sound Music">
+                    <a href="projects/vibesync.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="projects/vibesync.png" alt="VibeSync" decoding="async">
+                            <span class="card-year-tag">2026</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">06</span>
+                                <h2 class="project-name">VibeSync</h2>
+                            </div>
+                            <span class="project-tag">Innovatie & Concept</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 07. King of the Court -->
+                <article class="creative-project-card" data-category="web-dev" data-title="King of the Court" data-tech="JavaScript Mobile App CSS3 Padel Tournament">
+                    <a href="projects/planning-tool.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="court_project.png" alt="King of the Court" decoding="async">
+                            <span class="card-year-tag">2025</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">07</span>
+                                <h2 class="project-name">King of the Court</h2>
+                            </div>
+                            <span class="project-tag">Web & Mobile App</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 08. Digitaal Ecosysteem -->
+                <article class="creative-project-card" data-category="ui-ux" data-title="Digitaal Ecosysteem" data-tech="UI/UX Figma Design System Dashboard Research">
+                    <a href="projects/ecosysteem.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="ecosysteem_screenshot.png" alt="Digitaal Ecosysteem" decoding="async">
+                            <span class="card-year-tag">2024</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">08</span>
+                                <h2 class="project-name">Digitaal Ecosysteem</h2>
+                            </div>
+                            <span class="project-tag">UI/UX Concept</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 09. Museum Ervaring -->
+                <article class="creative-project-card" data-category="web-dev" data-title="Museum Ervaring" data-tech="HTML5 CSS3 JavaScript Kunst Museum">
+                    <a href="projects/museum-website.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="museum.png" alt="Museum Ervaring" decoding="async">
+                            <span class="card-year-tag">2024</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">09</span>
+                                <h2 class="project-name">Museum Ervaring</h2>
+                            </div>
+                            <span class="project-tag">Web Development</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 10. Loading Animations -->
+                <article class="creative-project-card" data-category="interactive" data-title="Loading Animations" data-tech="CSS Animations SVG JavaScript Motion Micro-interactions">
+                    <a href="projects/loading-animation.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="laad.png" alt="Loading Animations" decoding="async">
+                            <span class="card-year-tag">2024</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">10</span>
+                                <h2 class="project-name">Loading Animations</h2>
+                            </div>
+                            <span class="project-tag">Animatie & Interactie</span>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 11. Album Cover Design -->
+                <article class="creative-project-card" data-category="ui-ux" data-title="Album Cover Design" data-tech="Photoshop Illustrator Typografie Grafisch Artwork">
+                    <a href="projects/album-cover.html" class="creative-card-link">
+                        <div class="card-visual-wrapper">
+                            <img src="Album Cover_DEF.png" alt="Album Cover Design" decoding="async">
+                            <span class="card-year-tag">2023</span>
+                            <div class="card-hover-indicator">
+                                <span>Bekijk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                            </div>
+                        </div>
+                        <div class="card-caption">
+                            <div class="caption-left">
+                                <span class="project-num">11</span>
+                                <h2 class="project-name">Album Cover Design</h2>
+                            </div>
+                            <span class="project-tag">Grafisch Design</span>
+                        </div>
+                    </a>
+                </article>
+
+            </div>
+
+            <!-- 2. EDITORIAL LIST VIEW WITH CURSOR PREVIEW -->
+            <div id="projectsList" class="projects-list">
+
+                <a href="projects/the-vault.html" class="list-item" data-category="web-dev" data-title="The Vault" data-tech="HTML5 CSS3 JavaScript Luxury Watch E-Commerce Vercel" data-img="the-vault.png">
+                    <div class="list-item-left">
+                        <span class="list-index">01</span>
+                        <span class="list-title">The Vault</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Web Development</span>
+                        <span class="list-year">2025</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/dapur-ibu.html" class="list-item" data-category="web-dev" data-title="Dapur Ibu" data-tech="HTML5 CSS3 JavaScript PHP Restaurant Indisch" data-img="dapur ibu.png">
+                    <div class="list-item-left">
+                        <span class="list-index">02</span>
+                        <span class="list-title">Dapur Ibu</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Web Development</span>
+                        <span class="list-year">2026</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/duo-project.html" class="list-item" data-category="interactive" data-title="Interactive Duo Project" data-tech="JavaScript CSS3 HTML5 Vercel Quiz Education Duo" data-img="duo.png">
+                    <div class="list-item-left">
+                        <span class="list-index">03</span>
+                        <span class="list-title">Interactive Duo Project</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Interactief & Quiz</span>
+                        <span class="list-year">2024</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/edufit.html" class="list-item" data-category="web-dev" data-title="EduFit" data-tech="UI/UX Mobile App JavaScript CSS3 Health Fit" data-img="edufit_screenshot.png">
+                    <div class="list-item-left">
+                        <span class="list-index">04</span>
+                        <span class="list-title">EduFit</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Web & Mobile App</span>
+                        <span class="list-year">2025</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/yume-ramen.html" class="list-item" data-category="web-dev" data-title="Yume Ramen" data-tech="HTML5 CSS3 JavaScript E-Commerce Food Japanese" data-img="yume_ramen_screenshot.png">
+                    <div class="list-item-left">
+                        <span class="list-index">05</span>
+                        <span class="list-title">Yume Ramen</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Web Development</span>
+                        <span class="list-year">2025</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/vibesync.html" class="list-item" data-category="interactive" data-title="VibeSync" data-tech="UI/UX Figma Concept JavaScript Vercel Sound Music" data-img="projects/vibesync.png">
+                    <div class="list-item-left">
+                        <span class="list-index">06</span>
+                        <span class="list-title">VibeSync</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Innovatie & Concept</span>
+                        <span class="list-year">2026</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/planning-tool.html" class="list-item" data-category="web-dev" data-title="King of the Court" data-tech="JavaScript Mobile App CSS3 Padel Tournament" data-img="court_project.png">
+                    <div class="list-item-left">
+                        <span class="list-index">07</span>
+                        <span class="list-title">King of the Court</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Web & Mobile App</span>
+                        <span class="list-year">2025</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/ecosysteem.html" class="list-item" data-category="ui-ux" data-title="Digitaal Ecosysteem" data-tech="UI/UX Figma Design System Dashboard Research" data-img="ecosysteem_screenshot.png">
+                    <div class="list-item-left">
+                        <span class="list-index">08</span>
+                        <span class="list-title">Digitaal Ecosysteem</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">UI/UX Concept</span>
+                        <span class="list-year">2024</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/museum-website.html" class="list-item" data-category="web-dev" data-title="Museum Ervaring" data-tech="HTML5 CSS3 JavaScript Kunst Museum" data-img="museum.png">
+                    <div class="list-item-left">
+                        <span class="list-index">09</span>
+                        <span class="list-title">Museum Ervaring</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Web Development</span>
+                        <span class="list-year">2024</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/loading-animation.html" class="list-item" data-category="interactive" data-title="Loading Animations" data-tech="CSS Animations SVG JavaScript Motion Micro-interactions" data-img="laad.png">
+                    <div class="list-item-left">
+                        <span class="list-index">10</span>
+                        <span class="list-title">Loading Animations</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Animatie & Interactie</span>
+                        <span class="list-year">2024</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+                <a href="projects/album-cover.html" class="list-item" data-category="ui-ux" data-title="Album Cover Design" data-tech="Photoshop Illustrator Typografie Grafisch Artwork" data-img="Album Cover_DEF.png">
+                    <div class="list-item-left">
+                        <span class="list-index">11</span>
+                        <span class="list-title">Album Cover Design</span>
+                    </div>
+                    <div class="list-item-right">
+                        <span class="list-category">Grafisch Design</span>
+                        <span class="list-year">2023</span>
+                        <span class="list-arrow">→</span>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- Empty Search Results State -->
+            <div id="emptyState" class="empty-state">
+                <h3>Geen projecten gevonden</h3>
+                <p>Er zijn geen projecten die overeenkomen met je zoekopdracht of filter.</p>
+                <button id="resetFiltersBtn" class="btn-reset-filters">Filters Resetten</button>
+            </div>
+        </section>
+
+        <!-- Floating Cursor Preview Box for List View -->
+        <div id="cursorPreviewModal" class="cursor-preview-modal" aria-hidden="true">
+            <img src="the-vault.png" alt="Preview">
+        </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-copy">2026 GEORGE PELEALUW</span>
+                <div class="footer-label">
+                    <span>CREATIVE DEVELOPER</span>
+                    <span>BASED ROTTERDAM, NL</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="projects.js"></script>
+</body>
+
+</html>

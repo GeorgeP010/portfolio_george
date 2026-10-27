@@ -1,17 +1,17 @@
-// Ultimate Portfolio - Production Ready
+// Ultimate Portfolio - Spectaculaire Upgrade
 // George Pelealuw - 2025
 
 document.addEventListener('DOMContentLoaded', function () {
+
+
 
     // ========== DARK MODE TOGGLE ==========
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
 
-    // Load saved theme or default to light
     const savedTheme = localStorage.getItem('theme') || 'light';
     htmlElement.setAttribute('data-theme', savedTheme);
 
-    // Toggle theme on click
     themeToggle.addEventListener('click', () => {
         const currentTheme = htmlElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -19,17 +19,17 @@ document.addEventListener('DOMContentLoaded', function () {
         htmlElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
 
-        // Add a subtle animation to the button
-        themeToggle.style.transform = 'rotate(360deg) scale(1.1)';
+        themeToggle.style.transform = 'rotate(360deg) scale(1.2)';
         setTimeout(() => {
             themeToggle.style.transform = '';
-        }, 300);
+        }, 500);
     });
+
+
 
     // ========== PHYSICS TAGS EFFECT ==========
     const physicsContainer = document.getElementById('physicsContainer');
 
-    // Fallback function for static tags if physics fails
     function showStaticTags() {
         if (!physicsContainer) return;
 
@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Initialize physics with error handling
     function initPhysicsEngine() {
         try {
             if (!physicsContainer || typeof Matter === 'undefined') {
@@ -67,16 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const { Engine, Render, World, Bodies, Runner, Mouse, MouseConstraint, Body } = Matter;
 
-            // Container dimensions
             const containerRect = physicsContainer.getBoundingClientRect();
             const width = containerRect.width;
             const height = containerRect.height;
 
-            // Create engine
             const engine = Engine.create();
             engine.world.gravity.y = 0.3;
 
-            // Create renderer (invisible)
             const render = Render.create({
                 element: physicsContainer,
                 engine: engine,
@@ -88,14 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Hide the canvas
             render.canvas.style.position = 'absolute';
             render.canvas.style.top = '0';
             render.canvas.style.left = '0';
             render.canvas.style.pointerEvents = 'none';
             render.canvas.style.opacity = '0';
 
-            // Create boundaries
             const boundaryOptions = {
                 isStatic: true,
                 render: { fillStyle: 'transparent' }
@@ -107,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const rightWall = Bodies.rectangle(width + 25, height / 2, 50, height, boundaryOptions);
             const ceiling = Bodies.rectangle(width / 2, -500, width, 50, boundaryOptions);
 
-            // Create collision bodies for the name letters
+            // Create collision bodies for the name letters (stacked GEORGE and PELEALUW)
             const heroTitle = document.querySelector('.hero-title');
             const line1 = "GEORGE";
             const line2 = "PELEALUW";
@@ -117,8 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
             ).join('');
 
             heroTitle.innerHTML = `
-                <div style="display:block;">${wrapLetters(line1)}</div>
-                <div style="display:block;">${wrapLetters(line2)}</div>
+                <div class="hero-title-row" style="display:block;">${wrapLetters(line1)}</div>
+                <div class="hero-title-row" style="display:block;">${wrapLetters(line2)}</div>
             `;
 
             const letterBodies = [];
@@ -128,13 +122,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 const rect = letter.getBoundingClientRect();
                 const containerRect = physicsContainer.getBoundingClientRect();
 
-                const x = rect.left - containerRect.left + rect.width / 2;
-                const y = rect.top - containerRect.top + rect.height / 2;
+                // Space Grotesk uppercase letters have ~18% ascent whitespace at the top of the em-box.
+                // We offset down so the physics body's top surface aligns PRECISELY with the visible black ink of each letter.
+                // This eliminates the "invisible wall" floating above the name!
+                const capOffsetTop = rect.height * 0.18;
+                const capHeight = rect.height * 0.72;
+                const visualY = rect.top - containerRect.top + capOffsetTop + capHeight / 2;
+                const visualX = rect.left - containerRect.left + rect.width / 2;
 
-                const body = Bodies.rectangle(x, y, rect.width, rect.height, {
+                const body = Bodies.rectangle(visualX, visualY, rect.width * 0.96, capHeight, {
                     ...boundaryOptions,
-                    restitution: 0.6,
-                    chamfer: { radius: 10 }
+                    restitution: 0.5,
+                    friction: 0.15,
+                    chamfer: { radius: 8 }
                 });
 
                 letterBodies.push(body);
@@ -160,42 +160,80 @@ document.addEventListener('DOMContentLoaded', function () {
                 physicsContainer.appendChild(tagElement);
 
                 const rect = tagElement.getBoundingClientRect();
-                const tagWidth = rect.width;
-                const tagHeight = rect.height;
+                const tagWidth = rect.width || 80;
+                const tagHeight = rect.height || 28;
 
-                const x = Math.random() * (width - tagWidth) + tagWidth / 2;
-                const y = Math.random() * 200 - 300;
+                // Spawn tags distributed across the hero name from above
+                const heroRect = heroTitle.getBoundingClientRect();
+                const heroLeft = heroRect.left - containerRect.left;
+                const heroWidth = heroRect.width;
+                const spread = index / (tags.length - 1 || 1);
 
-                const body = Bodies.rectangle(x, y, tagWidth, tagHeight, {
+                const spawnX = Math.max(tagWidth / 2 + 10, Math.min(width - tagWidth / 2 - 10,
+                    heroLeft + 30 + spread * (heroWidth - 60) + (Math.random() - 0.5) * 30
+                ));
+                const spawnY = -40 - (index * 55);
+
+                const body = Bodies.rectangle(spawnX, spawnY, tagWidth, tagHeight, {
                     render: { fillStyle: 'transparent' },
-                    restitution: 0.6,
-                    frictionAir: 0.01,
-                    friction: 0.1,
+                    restitution: 0.55,
+                    frictionAir: 0.015,
+                    friction: 0.2,
                     density: 0.001
                 });
 
                 Body.setVelocity(body, {
-                    x: (Math.random() - 0.5) * 3,
-                    y: (Math.random() - 0.5) * 2
+                    x: (Math.random() - 0.5) * 1.5,
+                    y: 1.5 + Math.random() * 1.5
                 });
-                Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.03);
+                Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.04);
 
                 setTimeout(() => {
                     tagElement.style.opacity = '1';
-                    tagElement.style.transition = 'opacity 0.5s ease';
-                }, index * 100);
+                    tagElement.style.transition = 'opacity 0.4s ease';
+                }, index * 80);
 
                 return { elem: tagElement, body: body };
             });
 
             // Create mouse constraint
-            const mouse = Mouse.create(physicsContainer);
+            const mouse = Mouse.create(render.canvas);
             const mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
                 constraint: {
                     stiffness: 0.2,
                     render: { visible: false }
                 }
+            });
+
+            // Allow dragging through tag elements
+            tagBodies.forEach(({ elem, body }) => {
+                let isDragging = false;
+                elem.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    Body.setStatic(body, true);
+                    const onMouseMove = (moveEvent) => {
+                        if (!isDragging) return;
+                        const containerRect = physicsContainer.getBoundingClientRect();
+                        const newX = moveEvent.clientX - containerRect.left;
+                        const newY = moveEvent.clientY - containerRect.top;
+                        Body.setPosition(body, { x: newX, y: newY });
+                    };
+                    const onMouseUp = () => {
+                        if (isDragging) {
+                            isDragging = false;
+                            Body.setStatic(body, false);
+                            Body.setVelocity(body, {
+                                x: (Math.random() - 0.5) * 4,
+                                y: -2
+                            });
+                        }
+                        window.removeEventListener('mousemove', onMouseMove);
+                        window.removeEventListener('mouseup', onMouseUp);
+                    };
+                    window.addEventListener('mousemove', onMouseMove);
+                    window.addEventListener('mouseup', onMouseUp);
+                });
             });
 
             // Add all bodies to world
@@ -209,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 ...tagBodies.map(tb => tb.body)
             ]);
 
-            // Run engine
             const runner = Runner.create();
             Runner.run(runner, engine);
             Render.run(render);
@@ -231,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 150);
             }, { passive: true });
 
-            // Update loop to sync DOM with physics
             function updateTags() {
                 tagBodies.forEach(({ body, elem }) => {
                     const { x, y } = body.position;
@@ -248,64 +284,186 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Call the physics initialization
     initPhysicsEngine();
 
-    // ========== SCROLL REVEAL ANIMATIONS ==========
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
+    // ========== GSAP SCROLL ANIMATIONS ==========
+    function initScrollAnimations() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-            }
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Work cards staggered reveal
+        const workCards = document.querySelectorAll('.work-card');
+        workCards.forEach((card, index) => {
+            gsap.fromTo(card,
+                {
+                    opacity: 0,
+                    y: 80,
+                    scale: 0.95
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        end: 'top 50%',
+                        toggleActions: 'play none none none'
+                    },
+                    delay: (index % 2) * 0.15 // Stagger within rows
+                }
+            );
         });
-    }, observerOptions);
 
-    // Add scroll-reveal class to elements
-    document.querySelectorAll('.work-card').forEach((item, index) => {
-        item.classList.add('scroll-reveal');
-        item.style.transitionDelay = `${index * 0.1}s`;
-        observer.observe(item);
-    });
+        // Section titles slide in
+        document.querySelectorAll('.section-title, .section-header h2').forEach(title => {
+            gsap.fromTo(title,
+                { opacity: 0, x: -40 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: title,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
 
-    document.querySelectorAll('.timeline-item').forEach((item, index) => {
-        item.classList.add('scroll-reveal');
-        item.style.transitionDelay = `${index * 0.12}s`;
-        observer.observe(item);
-    });
+        // About section
+        const aboutText = document.querySelector('.about-text');
+        const aboutImage = document.querySelector('.about-image');
 
-    // ========== PARALLAX SCROLL EFFECT (THROTTLED) ==========
+        if (aboutText) {
+            gsap.fromTo(aboutText,
+                { opacity: 0, x: -60 },
+                {
+                    opacity: 1, x: 0, duration: 1, ease: 'power3.out',
+                    scrollTrigger: { trigger: aboutText, start: 'top 80%' }
+                }
+            );
+        }
+
+        if (aboutImage) {
+            gsap.fromTo(aboutImage,
+                { opacity: 0, x: 60, scale: 0.9 },
+                {
+                    opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power3.out',
+                    scrollTrigger: { trigger: aboutImage, start: 'top 80%' }
+                }
+            );
+        }
+
+        // Timeline items staggered
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach((item, index) => {
+            gsap.fromTo(item,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    },
+                    delay: index * 0.15
+                }
+            );
+        });
+
+        // Timeline scroll-driven fill
+        const timelineTrack = document.getElementById('timelineTrack');
+        if (timelineTrack) {
+            ScrollTrigger.create({
+                trigger: timelineTrack,
+                start: 'top 80%',
+                end: 'bottom 40%',
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    // Remove all fill classes
+                    timelineTrack.classList.remove('fill-25', 'fill-50', 'fill-75', 'fill-100');
+
+                    // Add items active-scroll class based on progress
+                    timelineItems.forEach((item, index) => {
+                        const threshold = (index + 1) / timelineItems.length;
+                        if (progress >= threshold * 0.8) {
+                            item.classList.add('active-scroll');
+                        } else {
+                            item.classList.remove('active-scroll');
+                        }
+                    });
+
+                    // Fill the track line
+                    if (progress > 0.8) timelineTrack.classList.add('fill-100');
+                    else if (progress > 0.6) timelineTrack.classList.add('fill-75');
+                    else if (progress > 0.35) timelineTrack.classList.add('fill-50');
+                    else if (progress > 0.15) timelineTrack.classList.add('fill-25');
+                }
+            });
+        }
+
+        // Contact section
+        const emailLink = document.querySelector('.email-link');
+        if (emailLink) {
+            gsap.fromTo(emailLink,
+                { opacity: 0, y: 40, scale: 0.95 },
+                {
+                    opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
+                    scrollTrigger: { trigger: emailLink, start: 'top 85%' }
+                }
+            );
+        }
+
+        // Intro section parallax
+        const introSection = document.querySelector('.intro-section');
+        if (introSection) {
+            gsap.fromTo(introSection.querySelector('.intro-card-dark'),
+                { opacity: 0, scale: 0.9 },
+                {
+                    opacity: 1, scale: 1, duration: 1, ease: 'power3.out',
+                    scrollTrigger: { trigger: introSection, start: 'top 80%' }
+                }
+            );
+        }
+    }
+
+    // Wait for GSAP to load
+    function waitForGSAP() {
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            initScrollAnimations();
+        } else {
+            setTimeout(waitForGSAP, 100);
+        }
+    }
+    waitForGSAP();
+
+    // ========== PARALLAX SCROLL EFFECT ==========
     const heroContainer = document.querySelector('.hero-container');
     let ticking = false;
 
     function updateParallax() {
         const scrolled = window.pageYOffset;
 
-        // Hero parallax
         if (heroContainer && scrolled < window.innerHeight) {
-            const rate = scrolled * 0.5;
+            const rate = scrolled * 0.4;
             heroContainer.style.transform = `translateY(${rate}px)`;
-            heroContainer.style.opacity = 1 - (scrolled / window.innerHeight) * 0.8;
+            heroContainer.style.opacity = 1 - (scrolled / window.innerHeight) * 0.9;
         }
 
-        // Work cards parallax
-        document.querySelectorAll('.work-card').forEach((card, index) => {
-            const rect = card.getBoundingClientRect();
-            const scrollProgress = (window.innerHeight - rect.top) / window.innerHeight;
-
-            if (scrollProgress > 0 && scrollProgress < 1.5) {
-                const offset = index % 2 === 0 ? 1 : -1;
-                const parallax = (scrollProgress - 0.5) * 20 * offset;
-
-                if (!card.matches(':hover')) {
-                    card.style.transform = `translateY(${parallax}px)`;
-                }
-            }
-        });
+        // Hide scroll indicator
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.style.opacity = Math.max(0, 1 - scrolled / 200);
+        }
 
         ticking = false;
     }
@@ -321,24 +479,20 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.work-card').forEach(card => {
         const image = card.querySelector('.work-card-image img');
 
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-12px)';
-        });
-
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = (e.clientX - rect.left) / rect.width - 0.5;
             const y = (e.clientY - rect.top) / rect.height - 0.5;
 
             if (image) {
-                image.style.transform = `scale(1.1) translate(${x * 20}px, ${y * 20}px)`;
+                image.style.transform = `scale(1.08) translate(${x * 15}px, ${y * 15}px)`;
             }
 
             card.style.transform = `
-                translateY(-12px) 
+                translateY(-8px) 
                 perspective(1000px) 
-                rotateX(${y * 3}deg) 
-                rotateY(${x * 3}deg)
+                rotateX(${y * 2}deg) 
+                rotateY(${x * 2}deg)
             `;
         });
 
@@ -351,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ========== MAGNETIC EFFECT ON BUTTONS ==========
-    const magneticElements = document.querySelectorAll('.see-more-link, .email-link');
+    const magneticElements = document.querySelectorAll('.email-link, .social-links a');
 
     magneticElements.forEach(el => {
         el.addEventListener('mousemove', (e) => {
@@ -359,7 +513,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
 
-            el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+            el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
         });
 
         el.addEventListener('mouseleave', () => {
@@ -367,29 +521,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ========== TIMELINE HOVER EFFECTS ==========
-    document.querySelectorAll('.timeline-item').forEach(item => {
-        item.addEventListener('mouseenter', function () {
-            this.style.transform = 'translateY(-8px)';
-        });
-
-        item.addEventListener('mouseleave', function () {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-
-    // ========== SCROLL PROGRESS INDICATOR ==========
+    // ========== SCROLL PROGRESS BAR ==========
     const progressBar = document.createElement('div');
-    progressBar.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #0a0a0a, #737373);
-        width: 0%;
-        z-index: 10001;
-        transition: width 0.1s ease;
-    `;
+    progressBar.className = 'scroll-progress';
     progressBar.setAttribute('aria-hidden', 'true');
     document.body.appendChild(progressBar);
 
@@ -406,80 +540,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, { passive: true });
 
-    // ========== PAGE LOAD ANIMATION ==========
-    window.addEventListener('load', () => {
-        document.body.style.opacity = '0';
 
-        setTimeout(() => {
-            document.body.style.transition = 'opacity 0.8s ease';
-            document.body.style.opacity = '1';
-        }, 100);
-    });
-
-    // ========== CURSOR TRAIL EFFECT (DESKTOP ONLY) ==========
-    if (window.innerWidth > 768) {
-        const cursor = document.createElement('div');
-        cursor.style.cssText = `
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: #0a0a0a;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            mix-blend-mode: difference;
-            transition: transform 0.15s ease;
-        `;
-        cursor.setAttribute('aria-hidden', 'true');
-        document.body.appendChild(cursor);
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let cursorX = 0;
-        let cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateCursor() {
-            const dx = mouseX - cursorX;
-            const dy = mouseY - cursorY;
-
-            cursorX += dx * 0.2;
-            cursorY += dy * 0.2;
-
-            cursor.style.transform = `translate(${cursorX - 4}px, ${cursorY - 4}px)`;
-            requestAnimationFrame(animateCursor);
-        }
-
-        animateCursor();
-
-        // Scale on hover
-        document.querySelectorAll('a, button, .work-card').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '16px';
-                cursor.style.height = '16px';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '8px';
-                cursor.style.height = '8px';
-            });
-        });
-    }
 
     // ========== CONSOLE MESSAGE ==========
-    console.log('%c👋 Hey Developer!', 'font-size: 24px; font-weight: bold; color: #0a0a0a;');
+    console.log('%c👋 Hey Developer!', 'font-size: 24px; font-weight: bold; color: #6366f1;');
     console.log('%cLike what you see? Let\'s create something amazing together!', 'font-size: 14px; color: #737373;');
     console.log('%c✉️ gpelealuw@gmail.com', 'font-size: 12px; color: #0a0a0a; font-weight: bold;');
     console.log('%c🔗 https://github.com/GeorgeP010', 'font-size: 12px; color: #737373;');
 
 });
-
-// ========== PROJECT PAGES ==========
-// Work cards now link to dedicated case study pages in /projects/ folder
-// No modal code needed - better for SEO and user experience
 
 // ========== RESIZE HANDLER ==========
 let resizeTimer;
